@@ -11,5 +11,6 @@
     <string name="units_text">Units</string>
     <string name="legacy_button_text">legacy</string>
     <string name="settings_button_text">settings</string>
-    <string name="fight_text">Fight!</string>
+    <string name="fight_menu_boss_health">Health:</string>
+    <string name="tempboss">Tempboss</string>
 </resources>

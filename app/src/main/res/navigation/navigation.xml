@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation">
+
+    <fragment
+        android:id="@+id/fight_menu"
+        android:name="com.example.semestralnapraca_idlegame_tibor_michalov.fight_menu"
+        android:label="fragment_fight_menu"
+        tools:layout="@layout/fragment_fight_menu" />
+</navigation>

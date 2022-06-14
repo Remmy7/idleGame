@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,6 +21,7 @@ import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.Fragment
 class fight_menu : Fragment() {
     private val viewModel: GameViewModel by viewModels()
     private val hideHandler = Handler()
+
 
     @Suppress("InlinedApi")
     private val hidePart2Runnable = Runnable {
@@ -75,8 +77,15 @@ class fight_menu : Fragment() {
 
         _binding = FragmentFightMenuBinding.inflate(inflater, container, false)
         updateScreen()
+
+        binding.fightMenuBackButton.setOnClickListener{ fightBackButtonClick() }
+
         return binding.root
 
+    }
+
+    private fun fightBackButtonClick() {
+        TODO("Not yet implemented")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -182,7 +191,10 @@ class fight_menu : Fragment() {
     }
 
     private fun updateScreen() {
-        binding.mainMenuLevelText.text = getString(R.string.level_text) + viewModel.level.toString()
-        binding.mainMenuGoldText.text = getString(R.string.gold_text) + viewModel.gold.toString()
+        binding.fightMenuBossNameValue.text = getString(R.string.tempboss)
+        binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health)
+    }
+
+    private fun sendMessage(message:String) {
     }
 }

@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.40" />
+            app:layout_constraintGuide_percent="0.43"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/fight_menu_guideline_horizontal_middle_2"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.60" />
+            app:layout_constraintGuide_percent="0.63" />
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/fight_menu_guideline_horizontal_middle_4"
             android:layout_width="wrap_content"
@@ -101,13 +101,14 @@
             android:layout_height="0dp"
             android:background="#5C2402"
             app:layout_constraintBottom_toTopOf="@+id/fight_menu_guideline_horizontal_middle_3"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
-            app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
 
+            app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
             app:layout_constraintTop_toBottomOf="@id/fight_menu_guideline_horizontal_middle_2"
             app:layout_constraintVertical_bias="0.0" />
 
-        <View
+        <ScrollView
             android:id="@+id/fight_menu_view_bottom"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -116,37 +117,74 @@
             app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
             app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
             app:layout_constraintTop_toBottomOf="@id/fight_menu_guideline_horizontal_middle_4"
+            />
+            <LinearLayout
+                android:id="@+id/fight_menu_message_space"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:gravity="end"
+                app:layout_constraintBottom_toTopOf="@id/fight_menu_guideline_horizontal_bottom"
+                app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
+                app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
+                app:layout_constraintTop_toBottomOf="@id/fight_menu_guideline_horizontal_middle_4"
+            />
+
+        <TextView
+            android:id="@+id/fight_menu_boss_name_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tempboss"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="@id/fight_menu_guideline_horizontal_middle_2"
+            app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
+            app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
+            app:layout_constraintBottom_toTopOf="@id/fight_menu_boss_healthbar_value"
+            app:layout_constraintHorizontal_bias="0.1"
+            android:layout_marginTop="15dp"
+            />
+
+        <TextView
+            android:id="@+id/fight_menu_boss_healthbar_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fight_menu_boss_health"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="@id/fight_menu_boss_name_value"
+            app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
+            app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
+            app:layout_constraintBottom_toTopOf="@id/fight_menu_progressBarHealth"
+            app:layout_constraintHorizontal_bias="0.1"
 
             />
 
-
         <ProgressBar
-            android:id="@+id/fight_menu_progressBarHealthBar"
+            android:id="@+id/fight_menu_progressBarHealth"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/fight_menu_level_text"
+            app:layout_constraintTop_toBottomOf="@id/fight_menu_boss_healthbar_value"
             app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
             app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
-            app:layout_constraintBottom_toTopOf="@id/fight_menu_gold_text"
+            app:layout_constraintBottom_toTopOf="@id/fight_menu_guideline_horizontal_middle_3"
             app:layout_constraintHorizontal_bias="0.3"
             app:layout_constraintWidth_percent="0.55"
 
+
             />
 
-        <ScrollView
-            android:layout_width="132dp"
-            android:layout_height="8dp"
-            tools:layout_editor_absoluteX="48dp"
-            tools:layout_editor_absoluteY="622dp">
+        <Button
+            android:id="@+id/fight_menu_back_button"
+            android:text="back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
-
-
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
