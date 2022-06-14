@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">semestralnaPraca_idleGame_Tibor_Michalov</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="idle_game_text">Idle game</string>
+    <string name="level_text">level: </string>
+    <string name="gold_text">Gold: </string>
+    <string name="legacy_text">Legacy:</string>
+    <string name="fight_text">Fight!</string>
+    <string name="blacksmith_text">BLACKSMITH</string>
+    <string name="units_text">Units</string>
+    <string name="legacy_button_text">legacy</string>
+    <string name="settings_button_text">settings</string>
+    <string name="fight_text">Fight!</string>
+</resources>
