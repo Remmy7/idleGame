@@ -37,13 +37,12 @@ import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.Fragment
  * status bar and navigation/system bar) with user interaction.
  */
 class fight_menu : Fragment() {
-    private val viewModel: GameViewModel by viewModels()
     private var specialSpellCastInterval = 0
     private var ticksOfCurse = 0
-    private var mysticSpellCastInterval = 1
-    private var wizardSpellCastInterval = 2
-    private var archerSpellCastInterval = 3
-    private var knightSpellCastInterval = 4
+    private var mysticSpellCastInterval = 5
+    private var wizardSpellCastInterval = 10
+    private var archerSpellCastInterval = 15
+    private var knightSpellCastInterval = 20
     private var mMediaPlayer: MediaPlayer? = null
     //val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) //https://stackoverflow.com/questions/54744526/android-shared-preferences-inside-fragment-not-working-kotlin
     private val hideHandler = Handler()
@@ -129,7 +128,7 @@ class fight_menu : Fragment() {
             putInt(_level, sharedPref.getInt(_level, 50) + 1)
             putInt(_monsterLevel, monsterLevel + 1)
             putInt(_monsterHealth, monsterLevel * 15)
-            putInt(_gold, monsterLevel * 10)
+            putInt(_gold, sharedPref.getInt(_gold, 5) + monsterLevel * 10)
             apply()
         }
 
@@ -137,13 +136,17 @@ class fight_menu : Fragment() {
     fun calculateDamage() : Int {
         var calculatedDamage = 0
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)?: return 1
-        val wizardDamage = sharedPref?.getInt(_wizardLevel, 1) * (1 + (sharedPref?.getInt(_wizardWeaponLevel, 1) / 75))
-        val archerDamage = sharedPref?.getInt(_archerLevel, 1) * (1 + (sharedPref?.getInt(_archerWeaponLevel, 1) / 100))
-        val mysticDamage = sharedPref?.getInt(_mysticLevel, 1) * (1 + (sharedPref?.getInt(_mysticWeaponLevel, 1) / 130))
-        val knightDamage = sharedPref?.getInt(_knightLevel, 1) * (1 + (sharedPref?.getInt(_knightWeaponLevel, 1) / 110))
-
-
-        calculatedDamage += wizardDamage + archerDamage + mysticDamage + knightDamage
+        with (sharedPref.edit()) {
+            val wizardDamage = sharedPref.getInt(_wizardLevel, 1) *
+                    (1 + (sharedPref.getInt(_wizardWeaponLevel, 1) / 75))
+            val archerDamage = sharedPref.getInt(_archerLevel, 1) *
+                    (1 + (sharedPref.getInt(_archerWeaponLevel, 1) / 100))
+            val mysticDamage = sharedPref.getInt(_mysticLevel, 1) *
+                    (1 + (sharedPref.getInt(_mysticWeaponLevel, 1) / 130))
+            val knightDamage = sharedPref.getInt(_knightLevel, 1) *
+                    (1 + (sharedPref.getInt(_knightWeaponLevel, 1) / 110))
+            calculatedDamage += wizardDamage + archerDamage + mysticDamage + knightDamage
+        }
         if (ticksOfCurse > 0) {
             ticksOfCurse--
             calculatedDamage *= 13 / 10
@@ -170,10 +173,7 @@ class fight_menu : Fragment() {
         activity?.window?.decorView?.systemUiVisibility = flags
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
     }
-    private val showPart2Runnable = Runnable {
-        // Delayed display of UI elements
-        fullscreenContentControls?.visibility = View.VISIBLE
-    }
+
     private var visible: Boolean = false
     private val hideRunnable = Runnable { hide() }
 
@@ -189,9 +189,6 @@ class fight_menu : Fragment() {
         false
     }
 
-    private var dummyButton: Button? = null
-    private var fullscreenContent: View? = null
-    private var fullscreenContentControls: View? = null
 
     private var _binding: FragmentFightMenuBinding? = null
 
@@ -223,7 +220,6 @@ class fight_menu : Fragment() {
             view.findNavController().navigate(R.id.action_fight_menu_to_main_menu)
             }
         // Set up the user interaction to manually show or hide the system UI.
-        fullscreenContent?.setOnClickListener { toggle() }
         mainHandler = Handler(Looper.getMainLooper())
 
 
@@ -236,7 +232,7 @@ class fight_menu : Fragment() {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100)
+        delayedHide(0)
         mainHandler.post(updateTextTask)
     }
 
@@ -252,9 +248,7 @@ class fight_menu : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        dummyButton = null
-        fullscreenContent = null
-        fullscreenContentControls = null
+
     }
 
     private fun toggle() {
@@ -267,25 +261,20 @@ class fight_menu : Fragment() {
 
     private fun hide() {
         // Hide UI first
-        fullscreenContentControls?.visibility = View.GONE
         visible = false
 
         // Schedule a runnable to remove the status and navigation bar after a delay
-        hideHandler.removeCallbacks(showPart2Runnable)
         hideHandler.postDelayed(hidePart2Runnable, UI_ANIMATION_DELAY.toLong())
     }
 
     @Suppress("InlinedApi")
     private fun show() {
         // Show the system bar
-        fullscreenContent?.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         visible = true
 
         // Schedule a runnable to display UI elements after a delay
         hideHandler.removeCallbacks(hidePart2Runnable)
-        hideHandler.postDelayed(showPart2Runnable, UI_ANIMATION_DELAY.toLong())
+
         (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
 
@@ -309,13 +298,13 @@ class fight_menu : Fragment() {
          * If [AUTO_HIDE] is set, the number of milliseconds to wait after
          * user interaction before hiding the system UI.
          */
-        private const val AUTO_HIDE_DELAY_MILLIS = 3000
+        private const val AUTO_HIDE_DELAY_MILLIS = 0
 
         /**
          * Some older devices needs a small delay between UI widget updates
          * and a change of the status and navigation bar.
          */
-        private const val UI_ANIMATION_DELAY = 300
+        private const val UI_ANIMATION_DELAY = 0
     }
 
     override fun onDestroyView() {

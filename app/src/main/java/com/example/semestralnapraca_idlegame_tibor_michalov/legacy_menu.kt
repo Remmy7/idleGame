@@ -12,13 +12,21 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._archerLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._archerWeaponLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._currentExperience
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._gold
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._knightLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._knightWeaponLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._legacy
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._level
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._levelUpExperience
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterHealth
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._mysticLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._mysticWeaponLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._wizardLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._wizardWeaponLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentLegacyMenuBinding
 
 /**
@@ -94,6 +102,7 @@ class legacy_menu : Fragment() {
             view.findNavController().navigate(R.id.action_legacy_menu_to_main_menu)
         }
         binding.legacyMenuGameRestartButton.setOnClickListener{restartGame()}
+        updateScreen()
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContent?.setOnClickListener { toggle() }
 
@@ -111,9 +120,25 @@ class legacy_menu : Fragment() {
             putInt(_levelUpExperience, 100)
             putInt(_monsterLevel, 1)
             putInt(_monsterHealth, 15)
-            putInt(_gold, 65530)
+            putInt(_gold, 20000)
+            putInt(_wizardLevel, 1)
+            putInt(_wizardWeaponLevel, 1)
+            putInt(_mysticLevel, 1)
+            putInt(_mysticWeaponLevel, 1)
+            putInt(_archerLevel, 1)
+            putInt(_archerWeaponLevel, 1)
+            putInt(_knightLevel, 1)
+            putInt(_knightWeaponLevel, 1)
 
             apply()
+            updateScreen()
+        }
+    }
+    private fun updateScreen() {
+        val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            binding.legacyMenuLegacyText.text = getString(R.string.legacy_text) + sharedPref.getInt(_legacy, 1).toString() +
+                    " + " + (sharedPref.getInt(_level, 1) / 100).toString()
         }
     }
 
@@ -124,7 +149,7 @@ class legacy_menu : Fragment() {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100)
+        delayedHide(0)
     }
 
     override fun onPause() {
@@ -195,13 +220,13 @@ class legacy_menu : Fragment() {
          * If [AUTO_HIDE] is set, the number of milliseconds to wait after
          * user interaction before hiding the system UI.
          */
-        private const val AUTO_HIDE_DELAY_MILLIS = 3000
+        private const val AUTO_HIDE_DELAY_MILLIS = 0
 
         /**
          * Some older devices needs a small delay between UI widget updates
          * and a change of the status and navigation bar.
          */
-        private const val UI_ANIMATION_DELAY = 300
+        private const val UI_ANIMATION_DELAY = 0
     }
 
     override fun onDestroyView() {

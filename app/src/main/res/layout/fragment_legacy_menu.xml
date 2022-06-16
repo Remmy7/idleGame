@@ -19,14 +19,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.43"/>
+            app:layout_constraintGuide_percent="0.38"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/legacy_menu_guideline_horizontal_middle_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.45" />
+            app:layout_constraintGuide_percent="0.40" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/legacy_menu_guideline_horizontal_top"
@@ -110,7 +110,21 @@
             app:layout_constraintTop_toTopOf="@id/legacy_menu_guideline_horizontal_top"
             app:layout_constraintLeft_toLeftOf="@id/legacy_menu_guideline_vertical_left"
             app:layout_constraintRight_toRightOf="@id/legacy_menu_guideline_vertical_right"
+            app:layout_constraintBottom_toTopOf="@id/legacy_menu_legacy_text"
+
+            />
+        <TextView
+            android:id="@+id/legacy_menu_legacy_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="#FEFE01"
+            android:text="@string/legacy_text"
+            app:layout_constraintTop_toBottomOf="@id/legacy_menu_game_restart_button"
+            app:layout_constraintRight_toRightOf="@id/legacy_menu_guideline_vertical_right"
+            app:layout_constraintLeft_toLeftOf="@id/legacy_menu_guideline_vertical_left"
             app:layout_constraintBottom_toTopOf="@id/legacy_menu_guideline_horizontal_middle"
+            app:layout_constraintHorizontal_bias="0.1"
 
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
