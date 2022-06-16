@@ -1,6 +1,8 @@
 package com.example.semestralnapraca_idlegame_tibor_michalov
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -13,8 +15,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._gold
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._legacy
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._level
 import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentMainMenuBinding
-
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -23,6 +27,10 @@ class main_menu : Fragment() {
 
     private val hideHandler = Handler()
     private val viewModel: GameViewModel by viewModels()
+
+
+
+
     @Suppress("InlinedApi")
     private val hidePart2Runnable = Runnable {
         // Delayed removal of status and navigation bar
@@ -81,9 +89,10 @@ class main_menu : Fragment() {
 
     }
     private fun updateScreen() {
-        binding.mainMenuLevelText.text = getString(R.string.level_text) + viewModel.level.toString()
-        binding.mainMenuGoldText.text = getString(R.string.gold_text) + viewModel.gold.toString()
-        binding.mainMenuLegacyText.text = getString(R.string.legacy_text) + viewModel.legacyMoney.toString()
+        val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)
+        binding.mainMenuLevelText.text = getString(R.string.level_text) + sharedPreferences?.getInt(_level, 1)
+        binding.mainMenuGoldText.text = getString(R.string.gold_text) + sharedPreferences?.getInt(_gold, 600)
+        binding.mainMenuLegacyText.text = getString(R.string.legacy_text) + sharedPreferences?.getInt(_legacy, 0)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -96,13 +105,17 @@ class main_menu : Fragment() {
             view.findNavController().navigate(R.id.action_main_menu_to_units_menu) }
         binding.mainMenuLegacyButton.setOnClickListener{ view : View ->
             view.findNavController().navigate(R.id.action_main_menu_to_legacy_menu) }
+
+        //binding.mainMenuSettingsButton.setOnClickListener{ view : View ->
+        //   view.findNavController().navigate(R.id.action_main_menu_to_settings_menu) }
         binding.mainMenuSettingsButton.setOnClickListener{
-            viewModel.increaseExperience(500U)
-            viewModel.increaseGold(500u)
+            val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)
+            var editor = sharedPreferences?.edit()
+            editor?.putInt(_level, 2782)
+            editor?.apply()
             updateScreen()
         }
-        /*binding.mainMenuSettingsButton.setOnClickListener{ view : View ->
-            view.findNavController().navigate(R.id.action_main_menu_to_settings_menu) }*/
+
         visible = true
 
 

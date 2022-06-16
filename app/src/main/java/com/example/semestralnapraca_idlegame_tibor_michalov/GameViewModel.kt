@@ -23,6 +23,9 @@ class GameViewModel : ViewModel() {
     private var _legacyMoney: UInt = 2u
     val legacyMoney: UInt get() = _legacyMoney
 
+    private var _monsterHealth: Long = 100
+    val monsterHealth: Long get() = _monsterHealth
+
     //private var _currentDpsDisplay: Long = 0
 
 
@@ -31,10 +34,19 @@ class GameViewModel : ViewModel() {
     private var _bossHealthMultiplier: UInt = 10u
     private var _bossExperienceMultiplier: UInt = 5u
 
+    fun damageEnemy() {
+        _monsterHealth -= 20
+        if (_monsterHealth <= 0) {
+            _monsterHealth = 100
+            increaseGold(500u)
+            increaseExperience(500u)
+        }
+    }
 
     private fun increaseGold(amount: UInt) {
         _gold += amount
     }
+
     private fun increaseExperience(amount: ULong) {
         _currentExperience += amount
         if (_currentExperience > _levelupExperience) { levelUp() }
@@ -42,10 +54,11 @@ class GameViewModel : ViewModel() {
     private fun levelUp() {
         _level++;
         _currentExperience -= _levelupExperience
-        _levelupExperience *= 11UL/10UL  // for some reason 1.1UL doesn't work?
+        _levelupExperience *= 12UL/10UL  // for some reason 1.1UL doesn't work?
         if (_currentExperience > _levelupExperience) { levelUp() }
     }
     private fun increaseLegacy(amount: UInt) {
         _legacyMoney += amount
     }
+
 }

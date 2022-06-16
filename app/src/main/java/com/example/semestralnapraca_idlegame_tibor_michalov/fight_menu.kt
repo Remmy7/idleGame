@@ -1,17 +1,25 @@
 package com.example.semestralnapraca_idlegame_tibor_michalov
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._gold
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._level
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterHealth
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentFightMenuBinding
 
 
@@ -21,7 +29,52 @@ import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.Fragment
  */
 class fight_menu : Fragment() {
     private val viewModel: GameViewModel by viewModels()
+    
+    //val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) //https://stackoverflow.com/questions/54744526/android-shared-preferences-inside-fragment-not-working-kotlin
     private val hideHandler = Handler()
+    lateinit var mainHandler: Handler  //https://stackoverflow.com/questions/55570990/kotlin-call-a-function-every-second
+    private val updateTextTask = object : Runnable {
+        override fun run() {
+            attackEnemy()
+            updateScreen()
+            mainHandler.postDelayed(this, 1000)
+        }
+    }
+
+    private fun updateScreen() {
+        val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE)
+        binding.fightMenuBossNameValue.text = getString(R.string.tempboss)
+        binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health) + sharedPreferences?.getInt(_monsterHealth, 100).toString()
+    }
+
+    fun attackEnemy() {
+        var calculatedDamage = calculateDamage();
+        val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putInt(_monsterHealth, sharedPref.getInt(_monsterHealth, 150) - calculatedDamage)
+            apply()
+        }
+        if (sharedPref.getInt(_monsterHealth, 150) <= 0) { levelUp() }
+
+    }
+
+    fun levelUp() {
+        val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            val monsterLevel = sharedPref.getInt(_monsterLevel, 1)
+            putInt(_level, sharedPref.getInt(_level, 50) + 1)
+            putInt(_monsterLevel, monsterLevel + 1)
+            putInt(_monsterHealth, monsterLevel * 15)
+            putInt(_gold, monsterLevel * 10)
+            apply()
+        }
+
+    }
+    fun calculateDamage() : Int {
+        val calculatedDamage = 0;
+
+        return calculatedDamage
+    }
 
 
     @Suppress("InlinedApi")
@@ -77,16 +130,10 @@ class fight_menu : Fragment() {
     ): View? {
 
         _binding = FragmentFightMenuBinding.inflate(inflater, container, false)
-        updateScreen()
 
-        binding.fightMenuBackButton.setOnClickListener{ fightBackButtonClick() }
 
         return binding.root
 
-    }
-
-    private fun fightBackButtonClick() {
-        TODO("Not yet implemented")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,11 +141,15 @@ class fight_menu : Fragment() {
 
         visible = true
 
+
+
         binding.fightMenuBackButton.setOnClickListener{ view : View ->
             view.findNavController().navigate(R.id.action_fight_menu_to_main_menu)
             }
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContent?.setOnClickListener { toggle() }
+        mainHandler = Handler(Looper.getMainLooper())
+
 
     }
 
@@ -110,6 +161,7 @@ class fight_menu : Fragment() {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100)
+        mainHandler.post(updateTextTask)
     }
 
     override fun onPause() {
@@ -119,6 +171,7 @@ class fight_menu : Fragment() {
         // Clear the systemUiVisibility flag
         activity?.window?.decorView?.systemUiVisibility = 0
         show()
+        mainHandler.removeCallbacks(updateTextTask)
     }
 
     override fun onDestroy() {
@@ -192,11 +245,6 @@ class fight_menu : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun updateScreen() {
-        binding.fightMenuBossNameValue.text = getString(R.string.tempboss)
-        binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health)
     }
 
 }

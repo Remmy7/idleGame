@@ -7,10 +7,16 @@
     <string name="gold_text">Gold: </string>
     <string name="legacy_text">Legacy:</string>
     <string name="fight_text">Fight!</string>
-    <string name="blacksmith_text">BLACKSMITH</string>
+    <string name="blacksmith_text">Blacksmith</string>
     <string name="units_text">Units</string>
     <string name="legacy_button_text">legacy</string>
     <string name="settings_button_text">settings</string>
     <string name="fight_menu_boss_health">Health:</string>
     <string name="tempboss">Tempboss</string>
+    <string name="back_button_shared">back</string>
+    <string name="settings_text">Settings</string>
+    <string name="settings_master_volume">Master volume</string>
+    <string name="settings_music_volume">Music volume</string>
+    <string name="settings_effects_volume">Effects volume</string>
+
 </resources>
