@@ -18,5 +18,6 @@
     <string name="settings_master_volume">Master volume</string>
     <string name="settings_music_volume">Music volume</string>
     <string name="settings_effects_volume">Effects volume</string>
+    <string name="restart_game">Restart game?</string>
 
 </resources>

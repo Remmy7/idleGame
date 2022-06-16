@@ -16,10 +16,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._archerLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._archerWeaponLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._gold
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._knightLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._knightWeaponLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._level
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterHealth
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._mysticLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._mysticWeaponLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._wizardLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._wizardWeaponLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentFightMenuBinding
 
 
@@ -29,12 +37,32 @@ import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.Fragment
  */
 class fight_menu : Fragment() {
     private val viewModel: GameViewModel by viewModels()
-    
+    private var specialSpellCastInterval = 0
+    private var ticksOfCurse = 0
+    private var mysticSpellCastInterval = 1
+    private var wizardSpellCastInterval = 2
+    private var archerSpellCastInterval = 3
+    private var knightSpellCastInterval = 4
     //val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) //https://stackoverflow.com/questions/54744526/android-shared-preferences-inside-fragment-not-working-kotlin
     private val hideHandler = Handler()
     lateinit var mainHandler: Handler  //https://stackoverflow.com/questions/55570990/kotlin-call-a-function-every-second
     private val updateTextTask = object : Runnable {
         override fun run() {
+            specialSpellCastInterval += 1
+            if(specialSpellCastInterval == mysticSpellCastInterval) {
+                castSpecialSpell("mystic")
+                // play effect too
+            }
+            if(specialSpellCastInterval == wizardSpellCastInterval) {
+                castSpecialSpell("wizard")
+            }
+            if(specialSpellCastInterval == archerSpellCastInterval) {
+                castSpecialSpell("archer")
+            }
+            if(specialSpellCastInterval == knightSpellCastInterval) {
+                specialSpellCastInterval = 0
+                castSpecialSpell("knight")
+            }
             attackEnemy()
             updateScreen()
             mainHandler.postDelayed(this, 1000)
@@ -57,7 +85,41 @@ class fight_menu : Fragment() {
         if (sharedPref.getInt(_monsterHealth, 150) <= 0) { levelUp() }
 
     }
+    fun castSpecialSpell(value : String) {
+        var cursed = false
+        if (ticksOfCurse > 0) cursed = true
+        when (value) {
+            "mystic" -> ticksOfCurse += 5
+            "wizard" -> {
+                val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)?: return
+                with (sharedPref.edit()) {
+                    putInt(_monsterHealth, sharedPref.getInt(_monsterHealth, 150) -
+                            ((sharedPref.getInt(_wizardLevel, 150) * 20)
+                                    * sharedPref.getInt(_wizardWeaponLevel, 1))
+                    )
+                    apply()
+                }
+            }
+            "knight" -> {
+                val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)
+                sharedPref?.edit()?.putInt(_monsterHealth, sharedPref?.getInt(_monsterHealth, 150) -
+                        ((sharedPref?.getInt(_knightLevel, 150) * 35) * sharedPref?.getInt(_knightWeaponLevel, 1)))
+                sharedPref?.edit()?.apply()
+            }
+            "archer" -> {
+                val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)
+                sharedPref?.edit()?.putInt(_monsterHealth, sharedPref?.getInt(_monsterHealth, 150) -
+                        ((sharedPref?.getInt(_archerLevel, 150) * 10) * sharedPref?.getInt(_archerWeaponLevel, 1)))
+                sharedPref?.edit()?.apply()
+            }
+            else -> {
+                val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)
+                sharedPref?.edit()?.putInt(_monsterHealth,16598)
+                sharedPref?.edit()?.apply()
+            }
 
+        }
+    }
     fun levelUp() {
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
@@ -71,7 +133,19 @@ class fight_menu : Fragment() {
 
     }
     fun calculateDamage() : Int {
-        val calculatedDamage = 0;
+        var calculatedDamage = 0
+        val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)?: return 1
+        val wizardDamage = sharedPref?.getInt(_wizardLevel, 1) * (1 + (sharedPref?.getInt(_wizardWeaponLevel, 1) / 75))
+        val archerDamage = sharedPref?.getInt(_archerLevel, 1) * (1 + (sharedPref?.getInt(_archerWeaponLevel, 1) / 100))
+        val mysticDamage = sharedPref?.getInt(_mysticLevel, 1) * (1 + (sharedPref?.getInt(_mysticWeaponLevel, 1) / 130))
+        val knightDamage = sharedPref?.getInt(_knightLevel, 1) * (1 + (sharedPref?.getInt(_knightWeaponLevel, 1) / 110))
+
+
+        calculatedDamage += wizardDamage + archerDamage + mysticDamage + knightDamage
+        if (ticksOfCurse > 0) {
+            ticksOfCurse--
+            calculatedDamage *= 13 / 10
+        }
 
         return calculatedDamage
     }

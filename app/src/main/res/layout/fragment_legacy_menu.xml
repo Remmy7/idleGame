@@ -102,6 +102,17 @@
             app:layout_constraintTop_toTopOf="parent"
 
             />
+        <Button
+            android:id="@+id/legacy_menu_game_restart_button"
+            android:text="@string/restart_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/legacy_menu_guideline_horizontal_top"
+            app:layout_constraintLeft_toLeftOf="@id/legacy_menu_guideline_vertical_left"
+            app:layout_constraintRight_toRightOf="@id/legacy_menu_guideline_vertical_right"
+            app:layout_constraintBottom_toTopOf="@id/legacy_menu_guideline_horizontal_middle"
+
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

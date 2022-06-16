@@ -106,15 +106,9 @@ class main_menu : Fragment() {
         binding.mainMenuLegacyButton.setOnClickListener{ view : View ->
             view.findNavController().navigate(R.id.action_main_menu_to_legacy_menu) }
 
-        //binding.mainMenuSettingsButton.setOnClickListener{ view : View ->
-        //   view.findNavController().navigate(R.id.action_main_menu_to_settings_menu) }
-        binding.mainMenuSettingsButton.setOnClickListener{
-            val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)
-            var editor = sharedPreferences?.edit()
-            editor?.putInt(_level, 2782)
-            editor?.apply()
-            updateScreen()
-        }
+        binding.mainMenuSettingsButton.setOnClickListener{ view : View ->
+           view.findNavController().navigate(R.id.action_main_menu_to_settings_menu) }
+
 
         visible = true
 

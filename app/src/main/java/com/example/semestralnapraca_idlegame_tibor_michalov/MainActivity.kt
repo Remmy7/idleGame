@@ -37,6 +37,15 @@ class MainActivity : AppCompatActivity() {
         val _monsterLevel = "monsterLevel"
         val _monsterHealth = "monsterHealth"
 
+        val _wizardLevel = "wizardLevel"
+        val _wizardWeaponLevel = "WizardWeaponLevel"
+        val _archerLevel = "archerLevel"
+        val _archerWeaponLevel = "archerWeaponLevel"
+        val _knightLevel = "knightLevel"
+        val _knightWeaponLevel = "knightWeaponLevel"
+        val _mysticLevel = "mysticLevel"
+        val _mysticWeaponLevel = "mysticWeaponLevel"
+
         inline fun SharedPreferences.editMe(operation: (SharedPreferences.Editor) -> Unit) {
             val editMe = edit()
             operation(editMe)
@@ -86,6 +95,66 @@ class MainActivity : AppCompatActivity() {
                     it.putInt(_monsterHealth, value)
                 }
             }
+
+        var SharedPreferences.wizardLevel
+            get() = getInt(_wizardLevel, 1)
+            set(value) {
+                editMe {
+                    it.putInt(_wizardLevel, value)
+                }
+            }
+        var SharedPreferences.wizardWeaponLevel
+            get() = getInt(_wizardWeaponLevel, 1)
+            set(value) {
+                editMe {
+                    it.putInt(_wizardWeaponLevel, value)
+                }
+            }
+        var SharedPreferences.archerLevel
+            get() = getInt(_archerLevel, 1)
+            set(value) {
+                editMe {
+                    it.putInt(_archerLevel, value)
+                }
+            }
+        var SharedPreferences.archerWeaponLevel
+            get() = getInt(_archerWeaponLevel, 1)
+            set(value) {
+                editMe {
+                    it.putInt(_archerWeaponLevel, value)
+                }
+            }
+        var SharedPreferences.knightLevel
+            get() = getInt(_knightLevel, 1)
+            set(value) {
+                editMe {
+                    it.putInt(_knightLevel, value)
+                }
+            }
+        var SharedPreferences.knightWeaponLevel
+            get() = getInt(_knightWeaponLevel, 1)
+            set(value) {
+                editMe {
+                    it.putInt(_knightWeaponLevel, value)
+                }
+            }
+        var SharedPreferences.mysticLevel
+            get() = getInt(_mysticLevel, 1)
+            set(value) {
+                editMe {
+                    it.putInt(_mysticLevel, value)
+                }
+            }
+        var SharedPreferences.mysticWeaponLevel
+            get() = getInt(_mysticWeaponLevel, 1)
+            set(value) {
+                editMe {
+                    it.putInt(_mysticWeaponLevel, value)
+                }
+            }
+
+
+
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.semestralnapraca_idlegame_tibor_michalov
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -11,6 +12,13 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._currentExperience
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._gold
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._legacy
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._level
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._levelUpExperience
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterHealth
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentLegacyMenuBinding
 
 /**
@@ -85,6 +93,7 @@ class legacy_menu : Fragment() {
         binding.legacyMenuBackButton.setOnClickListener{ view : View ->
             view.findNavController().navigate(R.id.action_legacy_menu_to_main_menu)
         }
+        binding.legacyMenuGameRestartButton.setOnClickListener{restartGame()}
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContent?.setOnClickListener { toggle() }
 
@@ -92,6 +101,20 @@ class legacy_menu : Fragment() {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         dummyButton?.setOnTouchListener(delayHideTouchListener)
+    }
+    private fun restartGame() {
+        val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putInt(_legacy, sharedPref.getInt(_legacy, 5) + (sharedPref.getInt(_level, 1) / 100))
+            putInt(_level, 1)
+            putInt(_currentExperience, 0)
+            putInt(_levelUpExperience, 100)
+            putInt(_monsterLevel, 1)
+            putInt(_monsterHealth, 15)
+            putInt(_gold, 0)
+
+            apply()
+        }
     }
 
     override fun onResume() {
