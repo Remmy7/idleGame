@@ -96,8 +96,13 @@ class main_menu : Fragment() {
             view.findNavController().navigate(R.id.action_main_menu_to_units_menu) }
         binding.mainMenuLegacyButton.setOnClickListener{ view : View ->
             view.findNavController().navigate(R.id.action_main_menu_to_legacy_menu) }
-        binding.mainMenuSettingsButton.setOnClickListener{ view : View ->
-            view.findNavController().navigate(R.id.action_main_menu_to_settings_menu) }
+        binding.mainMenuSettingsButton.setOnClickListener{
+            viewModel.increaseExperience(500U)
+            viewModel.increaseGold(500u)
+            updateScreen()
+        }
+        /*binding.mainMenuSettingsButton.setOnClickListener{ view : View ->
+            view.findNavController().navigate(R.id.action_main_menu_to_settings_menu) }*/
         visible = true
 
 

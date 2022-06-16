@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentLegacyMenuBinding
 
 /**
@@ -80,9 +81,9 @@ class legacy_menu : Fragment() {
 
         visible = true
 
-        dummyButton = binding.dummyButton
-        fullscreenContent = binding.fullscreenContent
-        fullscreenContentControls = binding.fullscreenContentControls
+        binding.legacyMenuBackButton.setOnClickListener{ view : View ->
+            view.findNavController().navigate(R.id.action_legacy_menu_to_main_menu)
+        }
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContent?.setOnClickListener { toggle() }
 

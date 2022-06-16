@@ -95,7 +95,8 @@ class fight_menu : Fragment() {
         visible = true
 
         binding.fightMenuBackButton.setOnClickListener{ view : View ->
-            view.findNavController().navigate(R.id.action_fight_menu_to_main_menu) }
+            view.findNavController().navigate(R.id.action_fight_menu_to_main_menu)
+            }
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContent?.setOnClickListener { toggle() }
 
@@ -198,6 +199,4 @@ class fight_menu : Fragment() {
         binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health)
     }
 
-    private fun sendMessage(message:String) {
-    }
 }
