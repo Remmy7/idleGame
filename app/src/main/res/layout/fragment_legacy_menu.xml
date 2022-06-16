@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,45 +8,100 @@
     android:theme="@style/ThemeOverlay.SemestralnaPraca_idleGame_Tibor_Michalov.FullscreenContainer"
     tools:context=".legacy_menu">
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-    <TextView
-        android:id="@+id/fullscreen_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/dummy_content"
-        android:textColor="?attr/fullscreenTextColor"
-        android:textSize="50sp"
-        android:textStyle="bold" />
-
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:background="#B36800"
         android:fitsSystemWindows="true">
 
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="@style/Widget.Theme.SemestralnaPraca_idleGame_Tibor_Michalov.ButtonBar.Fullscreen"
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fight_menu_guideline_horizontal_middle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
             android:orientation="horizontal"
-            tools:ignore="UselessParent">
+            app:layout_constraintGuide_percent="0.43"/>
 
-            <Button
-                android:id="@+id/dummy_button"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dummy_button" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fight_menu_guideline_horizontal_middle_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.45" />
 
-        </LinearLayout>
-    </FrameLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fight_menu_guideline_horizontal_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fight_menu_guideline_horizontal_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.97" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fight_menu_guideline_vertical_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fight_menu_guideline_vertical_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.90" />
+
+        <TextView
+            android:id="@+id/fight_menu_idle_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fight_text"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
+            app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
+            app:layout_constraintBottom_toTopOf="@id/fight_menu_guideline_horizontal_top"
+            />
+
+        <View
+            android:id="@+id/fight_menu_view_top"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#5C2402"
+            app:layout_constraintBottom_toTopOf="@+id/fight_menu_guideline_horizontal_middle"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
+            app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
+
+            app:layout_constraintTop_toBottomOf="@id/fight_menu_guideline_horizontal_top"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ScrollView
+            android:id="@+id/fight_menu_view_bottom"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#5C2402"
+            app:layout_constraintBottom_toTopOf="@id/fight_menu_guideline_horizontal_bottom"
+            app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
+            app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
+            app:layout_constraintTop_toBottomOf="@id/fight_menu_guideline_horizontal_middle_2"
+            />
+
+        <Button
+            android:id="@+id/fight_menu_back_button"
+            android:text="@string/back_button_shared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
