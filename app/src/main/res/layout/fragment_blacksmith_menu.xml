@@ -19,14 +19,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.43"/>
+            app:layout_constraintGuide_percent="0.23"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/blacksmith_menu_guideline_horizontal_middle_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.45" />
+            app:layout_constraintGuide_percent="0.25" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/blacksmith_menu_guideline_horizontal_top"
@@ -102,6 +102,82 @@
             app:layout_constraintTop_toTopOf="parent"
 
             />
+        <TextView
+            android:id="@+id/main_menu_gold_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="#FEFE01"
+            android:text="@string/gold_text"
+            app:layout_constraintTop_toBottomOf="@id/blacksmith_menu_guideline_horizontal_top"
+            app:layout_constraintRight_toRightOf="@id/blacksmith_menu_guideline_vertical_right"
+            app:layout_constraintLeft_toLeftOf="@id/blacksmith_menu_guideline_vertical_left"
+            app:layout_constraintBottom_toTopOf="@id/blacksmith_menu_guideline_horizontal_middle"
+            app:layout_constraintHorizontal_bias="0.1"
+
+            />
+
+        <Button
+            android:id="@+id/blacksmith_upgrade_wizard_weapon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/wizards_staff"
+            android:backgroundTint="#E21030"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            app:layout_constraintWidth_percent="0.70"
+
+            app:layout_constraintTop_toBottomOf="@id/blacksmith_menu_guideline_horizontal_middle_2"
+            app:layout_constraintLeft_toRightOf="@id/blacksmith_menu_guideline_vertical_left"
+            app:layout_constraintRight_toLeftOf="@id/blacksmith_menu_guideline_vertical_right"
+            app:layout_constraintBottom_toTopOf="@id/blacksmith_upgrade_mystic_weapon"
+            />
+        <Button
+            android:id="@+id/blacksmith_upgrade_mystic_weapon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/mystics_wand"
+            android:backgroundTint="#E21030"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            app:layout_constraintWidth_percent="0.70"
+
+            app:layout_constraintTop_toBottomOf="@id/blacksmith_upgrade_wizard_weapon"
+            app:layout_constraintLeft_toRightOf="@id/blacksmith_menu_guideline_vertical_left"
+            app:layout_constraintRight_toLeftOf="@id/blacksmith_menu_guideline_vertical_right"
+            app:layout_constraintBottom_toTopOf="@id/blacksmith_upgrade_archer_weapon"
+            />
+        <Button
+            android:id="@+id/blacksmith_upgrade_archer_weapon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/archers_bow"
+            android:backgroundTint="#E21030"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            app:layout_constraintWidth_percent="0.70"
+
+            app:layout_constraintTop_toBottomOf="@id/blacksmith_upgrade_mystic_weapon"
+            app:layout_constraintLeft_toRightOf="@id/blacksmith_menu_guideline_vertical_left"
+            app:layout_constraintRight_toLeftOf="@id/blacksmith_menu_guideline_vertical_right"
+            app:layout_constraintBottom_toTopOf="@id/blacksmith_upgrade_knight_weapon"
+            />
+        <Button
+            android:id="@+id/blacksmith_upgrade_knight_weapon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/knights_sword"
+            android:backgroundTint="#E21030"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            app:layout_constraintWidth_percent="0.70"
+
+            app:layout_constraintTop_toBottomOf="@id/blacksmith_upgrade_archer_weapon"
+            app:layout_constraintLeft_toRightOf="@id/blacksmith_menu_guideline_vertical_left"
+            app:layout_constraintRight_toLeftOf="@id/blacksmith_menu_guideline_vertical_right"
+            app:layout_constraintBottom_toTopOf="@id/blacksmith_menu_guideline_horizontal_bottom"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
