@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import android.content.SharedPreferences
+import android.media.MediaPlayer
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -43,6 +44,7 @@ class fight_menu : Fragment() {
     private var wizardSpellCastInterval = 2
     private var archerSpellCastInterval = 3
     private var knightSpellCastInterval = 4
+    private var mMediaPlayer: MediaPlayer? = null
     //val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) //https://stackoverflow.com/questions/54744526/android-shared-preferences-inside-fragment-not-working-kotlin
     private val hideHandler = Handler()
     lateinit var mainHandler: Handler  //https://stackoverflow.com/questions/55570990/kotlin-call-a-function-every-second
@@ -51,17 +53,18 @@ class fight_menu : Fragment() {
             specialSpellCastInterval += 1
             if(specialSpellCastInterval == mysticSpellCastInterval) {
                 castSpecialSpell("mystic")
+                updateScreen()
                 // play effect too
-            }
-            if(specialSpellCastInterval == wizardSpellCastInterval) {
+            } else if(specialSpellCastInterval == wizardSpellCastInterval) {
                 castSpecialSpell("wizard")
-            }
-            if(specialSpellCastInterval == archerSpellCastInterval) {
+                updateScreen()
+            } else if(specialSpellCastInterval == archerSpellCastInterval) {
                 castSpecialSpell("archer")
-            }
-            if(specialSpellCastInterval == knightSpellCastInterval) {
+                updateScreen()
+            } else if(specialSpellCastInterval == knightSpellCastInterval) {
                 specialSpellCastInterval = 0
                 castSpecialSpell("knight")
+                updateScreen()
             }
             attackEnemy()
             updateScreen()
@@ -86,35 +89,34 @@ class fight_menu : Fragment() {
 
     }
     fun castSpecialSpell(value : String) {
-        var cursed = false
-        if (ticksOfCurse > 0) cursed = true
+        var cursed = 1
+        if (ticksOfCurse > 0) cursed = 2
         when (value) {
             "mystic" -> ticksOfCurse += 5
             "wizard" -> {
                 val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)?: return
                 with (sharedPref.edit()) {
                     putInt(_monsterHealth, sharedPref.getInt(_monsterHealth, 150) -
-                            ((sharedPref.getInt(_wizardLevel, 150) * 20)
-                                    * sharedPref.getInt(_wizardWeaponLevel, 1))
-                    )
+                            (((sharedPref.getInt(_wizardLevel, 150) * 20)
+                                    * sharedPref.getInt(_wizardWeaponLevel, 1)) * cursed))
                     apply()
                 }
             }
             "knight" -> {
                 val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)
                 sharedPref?.edit()?.putInt(_monsterHealth, sharedPref?.getInt(_monsterHealth, 150) -
-                        ((sharedPref?.getInt(_knightLevel, 150) * 35) * sharedPref?.getInt(_knightWeaponLevel, 1)))
+                        (((sharedPref?.getInt(_knightLevel, 150) * 35) * sharedPref?.getInt(_knightWeaponLevel, 1)) * cursed))
                 sharedPref?.edit()?.apply()
             }
             "archer" -> {
                 val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)
                 sharedPref?.edit()?.putInt(_monsterHealth, sharedPref?.getInt(_monsterHealth, 150) -
-                        ((sharedPref?.getInt(_archerLevel, 150) * 10) * sharedPref?.getInt(_archerWeaponLevel, 1)))
+                        (((sharedPref?.getInt(_archerLevel, 150) * 10) * sharedPref?.getInt(_archerWeaponLevel, 1)) * cursed))
                 sharedPref?.edit()?.apply()
             }
             else -> {
                 val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)
-                sharedPref?.edit()?.putInt(_monsterHealth,16598)
+                sharedPref?.edit()?.putInt(_monsterHealth,65533)
                 sharedPref?.edit()?.apply()
             }
 

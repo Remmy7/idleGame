@@ -111,7 +111,7 @@ class legacy_menu : Fragment() {
             putInt(_levelUpExperience, 100)
             putInt(_monsterLevel, 1)
             putInt(_monsterHealth, 15)
-            putInt(_gold, 0)
+            putInt(_gold, 65530)
 
             apply()
         }

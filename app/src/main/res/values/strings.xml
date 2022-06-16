@@ -19,5 +19,13 @@
     <string name="settings_music_volume">Music volume</string>
     <string name="settings_effects_volume">Effects volume</string>
     <string name="restart_game">Restart game?</string>
+    <string name="wizards_staff">Wizard\'s staff +</string>
+    <string name="archers_bow">Archer\'s bow +</string>
+    <string name="knights_sword">Knight\'s sword +</string>
+    <string name="mystics_wand">Mystic\'s wand +</string>
+    <string name="mystic_level">Mystic level:</string>
+    <string name="wizard_level">Wizard level:</string>
+    <string name="archer_level">Archer level:</string>
+    <string name="knight_level">Knight level:</string>
 
 </resources>

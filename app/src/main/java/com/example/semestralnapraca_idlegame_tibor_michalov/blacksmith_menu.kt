@@ -1,5 +1,6 @@
 package com.example.semestralnapraca_idlegame_tibor_michalov
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -7,10 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._archerWeaponLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._gold
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._knightWeaponLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._mysticWeaponLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._wizardWeaponLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentBlacksmithMenuBinding
+
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.
@@ -81,8 +89,21 @@ class blacksmith_menu : Fragment() {
 
         visible = true
 
+        updateScreen()
         binding.blacksmithMenuBackButton.setOnClickListener{ view : View ->
             view.findNavController().navigate(R.id.action_blacksmith_menu_to_main_menu)
+        }
+        binding.blacksmithUpgradeWizardWeapon.setOnClickListener{
+            upgradeItem("wizard")
+        }
+        binding.blacksmithUpgradeMysticWeapon.setOnClickListener{
+            upgradeItem("mystic")
+        }
+        binding.blacksmithUpgradeArcherWeapon.setOnClickListener{
+            upgradeItem("archer")
+        }
+        binding.blacksmithUpgradeKnightWeapon.setOnClickListener{
+            upgradeItem("knight")
         }
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContent?.setOnClickListener { toggle() }
@@ -91,6 +112,61 @@ class blacksmith_menu : Fragment() {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         dummyButton?.setOnTouchListener(delayHideTouchListener)
+    }
+    private fun updateScreen() {
+        val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            binding.blacksmithMenuGoldText.text = getString(R.string.gold_text) + sharedPref.getInt(_gold, 1).toString()
+            binding.blacksmithUpgradeWizardWeapon.text = getString(R.string.wizards_staff) +
+                    sharedPref.getInt(_wizardWeaponLevel, 1).toString() + " " + sharedPref.getInt(_wizardWeaponLevel, 1) * 15/10 + " gold"
+            binding.blacksmithUpgradeMysticWeapon.text = getString(R.string.mystics_wand) +
+                    sharedPref.getInt(_mysticWeaponLevel, 1).toString() + " " + sharedPref.getInt(_mysticWeaponLevel, 1) * 2 + " gold"
+            binding.blacksmithUpgradeArcherWeapon.text = getString(R.string.archers_bow) +
+                    sharedPref.getInt(_archerWeaponLevel, 1).toString() + " " + sharedPref.getInt(_archerWeaponLevel, 1) * 25/10 + " gold"
+            binding.blacksmithUpgradeKnightWeapon.text = getString(R.string.knights_sword) +
+                    sharedPref.getInt(_knightWeaponLevel, 1).toString() + " " + sharedPref.getInt(_knightWeaponLevel, 1) * 3 + " gold"
+            apply()
+        }
+    }
+    private fun upgradeItem(value : String) {
+        val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            var currGold : Int = sharedPref.getInt(_gold, 1)
+            if (value == "wizard") {
+                if (currGold >= sharedPref.getInt(_wizardWeaponLevel, 1) * 15/10) {
+                    putInt(_gold, currGold - sharedPref.getInt(_wizardWeaponLevel, 1) * 15/10)
+                    putInt(_wizardWeaponLevel, sharedPref.getInt(_wizardWeaponLevel, 1) + 1)
+                } else {
+                    Toast.makeText(activity, "Not enough funds", Toast.LENGTH_SHORT).show()
+                }
+            } else if (value == "mystic") {
+                if (currGold >= sharedPref.getInt(_mysticWeaponLevel, 1) * 2) {
+                    putInt(_gold, currGold - sharedPref.getInt(_mysticWeaponLevel, 1) * 2)
+                    putInt(_mysticWeaponLevel, sharedPref.getInt(_mysticWeaponLevel, 1) + 1)
+                } else {
+                    Toast.makeText(activity, "Not enough funds", Toast.LENGTH_SHORT).show()
+                }
+
+            } else if (value == "archer") {
+                if (currGold >= sharedPref.getInt(_archerWeaponLevel, 1) * 25/10) {
+                    putInt(_gold, currGold - sharedPref.getInt(_archerWeaponLevel, 1) * 25/10)
+                    putInt(_archerWeaponLevel, sharedPref.getInt(_archerWeaponLevel, 1) + 1)
+                } else {
+                    Toast.makeText(activity, "Not enough funds", Toast.LENGTH_SHORT).show()
+                }
+
+            } else if (value == "knight") {
+                if (currGold >= sharedPref.getInt(_knightWeaponLevel, 1) * 3) {
+                    putInt(_gold, currGold - sharedPref.getInt(_knightWeaponLevel, 1) * 3)
+                    putInt(_knightWeaponLevel, sharedPref.getInt(_knightWeaponLevel, 1) + 1)
+                } else {
+                    Toast.makeText(activity, "Not enough funds", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+            apply()
+        }
+        updateScreen()
     }
 
     override fun onResume() {
