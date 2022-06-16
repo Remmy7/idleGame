@@ -15,86 +15,86 @@
         android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fight_menu_guideline_horizontal_middle"
+            android:id="@+id/legacy_menu_guideline_horizontal_middle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.43"/>
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fight_menu_guideline_horizontal_middle_2"
+            android:id="@+id/legacy_menu_guideline_horizontal_middle_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.45" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fight_menu_guideline_horizontal_top"
+            android:id="@+id/legacy_menu_guideline_horizontal_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.1" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fight_menu_guideline_horizontal_bottom"
+            android:id="@+id/legacy_menu_guideline_horizontal_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.97" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fight_menu_guideline_vertical_left"
+            android:id="@+id/legacy_menu_guideline_vertical_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.1" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fight_menu_guideline_vertical_right"
+            android:id="@+id/legacy_menu_guideline_vertical_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.90" />
 
         <TextView
-            android:id="@+id/fight_menu_idle_game"
+            android:id="@+id/legacy_menu_idle_game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fight_text"
             android:textSize="30sp"
             android:textColor="@color/white"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
-            app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
-            app:layout_constraintBottom_toTopOf="@id/fight_menu_guideline_horizontal_top"
+            app:layout_constraintRight_toRightOf="@id/legacy_menu_guideline_vertical_right"
+            app:layout_constraintLeft_toLeftOf="@id/legacy_menu_guideline_vertical_left"
+            app:layout_constraintBottom_toTopOf="@id/legacy_menu_guideline_horizontal_top"
             />
 
         <View
-            android:id="@+id/fight_menu_view_top"
+            android:id="@+id/legacy_menu_view_top"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#5C2402"
-            app:layout_constraintBottom_toTopOf="@+id/fight_menu_guideline_horizontal_middle"
+            app:layout_constraintBottom_toTopOf="@+id/legacy_menu_guideline_horizontal_middle"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
-            app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
+            app:layout_constraintLeft_toLeftOf="@id/legacy_menu_guideline_vertical_left"
+            app:layout_constraintRight_toRightOf="@id/legacy_menu_guideline_vertical_right"
 
-            app:layout_constraintTop_toBottomOf="@id/fight_menu_guideline_horizontal_top"
+            app:layout_constraintTop_toBottomOf="@id/legacy_menu_guideline_horizontal_top"
             app:layout_constraintVertical_bias="0.0" />
 
         <ScrollView
-            android:id="@+id/fight_menu_view_bottom"
+            android:id="@+id/legacy_menu_view_bottom"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#5C2402"
-            app:layout_constraintBottom_toTopOf="@id/fight_menu_guideline_horizontal_bottom"
-            app:layout_constraintLeft_toLeftOf="@id/fight_menu_guideline_vertical_left"
-            app:layout_constraintRight_toRightOf="@id/fight_menu_guideline_vertical_right"
-            app:layout_constraintTop_toBottomOf="@id/fight_menu_guideline_horizontal_middle_2"
+            app:layout_constraintBottom_toTopOf="@id/legacy_menu_guideline_horizontal_bottom"
+            app:layout_constraintLeft_toLeftOf="@id/legacy_menu_guideline_vertical_left"
+            app:layout_constraintRight_toRightOf="@id/legacy_menu_guideline_vertical_right"
+            app:layout_constraintTop_toBottomOf="@id/legacy_menu_guideline_horizontal_middle_2"
             />
 
         <Button
-            android:id="@+id/fight_menu_back_button"
+            android:id="@+id/legacy_menu_back_button"
             android:text="@string/back_button_shared"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
