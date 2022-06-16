@@ -111,6 +111,9 @@ class legacy_menu : Fragment() {
         // while interacting with the UI.
         dummyButton?.setOnTouchListener(delayHideTouchListener)
     }
+    // Function that fully restarts players progress
+    // While also awarding him legacy, according to level he reached
+    // Legacy will be used for future upgrades
     private fun restartGame() {
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
@@ -134,6 +137,9 @@ class legacy_menu : Fragment() {
             updateScreen()
         }
     }
+
+    // Updates text variables on the screen according to data stored in a SharedPreferences variable
+    // Also pre-calculates how legacy will player get after reset
     private fun updateScreen() {
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {

@@ -113,6 +113,9 @@ class blacksmith_menu : Fragment() {
         // while interacting with the UI.
         dummyButton?.setOnTouchListener(delayHideTouchListener)
     }
+
+    // Updates text variables on the screen according to data stored in a SharedPreferences variable
+    // Also pre-calculates how much a specific upgrade will cost
     private fun updateScreen() {
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
@@ -128,6 +131,9 @@ class blacksmith_menu : Fragment() {
             apply()
         }
     }
+    // Upgrades items, increasing their numeral value in SharedPreference variable
+    // Uses a string as input, parses it between available items
+    // Shows a toast if user doesn't have enough gold to buy an upgrade
     private fun upgradeItem(value : String) {
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {

@@ -19,10 +19,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._archerLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._archerWeaponLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._currentExperience
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._gold
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._knightLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._knightWeaponLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._level
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._levelUpExperience
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterHealth
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._mysticLevel
@@ -47,6 +49,10 @@ class fight_menu : Fragment() {
     //val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) //https://stackoverflow.com/questions/54744526/android-shared-preferences-inside-fragment-not-working-kotlin
     private val hideHandler = Handler()
     lateinit var mainHandler: Handler  //https://stackoverflow.com/questions/55570990/kotlin-call-a-function-every-second
+
+    // A handler that sends a game tick (set of actions) every X milliseconds
+    // Right now set to 1000ms (1 second) per tick
+    // Also handles calling automatic screen upgrading, spell casting and attack on enemy
     private val updateTextTask = object : Runnable {
         override fun run() {
             specialSpellCastInterval += 1
@@ -70,13 +76,17 @@ class fight_menu : Fragment() {
             mainHandler.postDelayed(this, 1000)
         }
     }
-
+    // Updates text variables on the screen according to data stored in a SharedPreferences variable
+    // Shows boss name and its current health
     private fun updateScreen() {
         val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE)
         binding.fightMenuBossNameValue.text = getString(R.string.tempboss)
         binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health) + sharedPreferences?.getInt(_monsterHealth, 100).toString()
     }
 
+    // Function handling attacks on enemy
+    // Calls for calcuateDamage() function first
+    // If the damage is enough to kill the enemy, levelUp() function is called
     fun attackEnemy() {
         var calculatedDamage = calculateDamage();
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE) ?: return
@@ -87,6 +97,10 @@ class fight_menu : Fragment() {
         if (sharedPref.getInt(_monsterHealth, 150) <= 0) { levelUp() }
 
     }
+    // Function handling spell casts
+    // Wizard, Archer and Knight have damaging spells, while Mystic buffs damage for
+    // certain amount of game ticks
+    // Damage scales off of both weapon and spell damage (legacy soon)
     fun castSpecialSpell(value : String) {
         var cursed = 1
         if (ticksOfCurse > 0) cursed = 2
@@ -121,11 +135,21 @@ class fight_menu : Fragment() {
 
         }
     }
+    // Function handling monster killing
+    // It spawns a new monster with higher level and stats
+    // Rewards player for killing the monster
+    // Also can give player increased level if his current experience reached
+    // level up threshold
     fun levelUp() {
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
             val monsterLevel = sharedPref.getInt(_monsterLevel, 1)
-            putInt(_level, sharedPref.getInt(_level, 50) + 1)
+            putInt(_currentExperience, sharedPref.getInt(_currentExperience, 1) + ((50 * monsterLevel) * 12/10))
+            if (sharedPref.getInt(_currentExperience, 1) > sharedPref.getInt(_levelUpExperience, 100)) {
+                putInt(_level, sharedPref.getInt(_level, 50) + 1)
+                putInt(_currentExperience, 0)
+                putInt(_levelUpExperience, 100 * (sharedPref.getInt(_level, 50) * 12/10))
+            }
             putInt(_monsterLevel, monsterLevel + 1)
             putInt(_monsterHealth, monsterLevel * 15)
             putInt(_gold, sharedPref.getInt(_gold, 5) + monsterLevel * 10)
@@ -133,6 +157,10 @@ class fight_menu : Fragment() {
         }
 
     }
+    // Function handling damage calculation
+    // Takes both unit levels and weapon levels and with
+    // specific math calculates total damage dealt that tick
+    // Also handles bonus damage from curse buff
     fun calculateDamage() : Int {
         var calculatedDamage = 0
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)?: return 1

@@ -84,12 +84,15 @@ class main_menu : Fragment() {
         return binding.root
 
     }
+    // Updates text variables on the screen according to data stored in a SharedPreferences variable
+    // Shows player current basic stats, which are his level, gold and legacy
     private fun updateScreen() {
         val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)
         binding.mainMenuLevelText.text = getString(R.string.level_text) + sharedPreferences?.getInt(_level, 1)
         binding.mainMenuGoldText.text = getString(R.string.gold_text) + sharedPreferences?.getInt(_gold, 600)
         binding.mainMenuLegacyText.text = getString(R.string.legacy_text) + sharedPreferences?.getInt(_legacy, 0)
     }
+    // OnViewCreated uses navigation controller to switch between fragments
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateScreen()
