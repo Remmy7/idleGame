@@ -44,21 +44,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.90" />
 
-        <TextView
-            android:id="@+id/settings_menu_idle_game"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_text"
-            android:textSize="30sp"
-            android:textColor="@color/white"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="@id/settings_menu_guideline_vertical_right"
-            app:layout_constraintLeft_toLeftOf="@id/settings_menu_guideline_vertical_left"
-            app:layout_constraintBottom_toTopOf="@id/settings_menu_guideline_horizontal_top"
-            />
-
-
-
         <View
             android:id="@+id/settings_menu_view"
             android:layout_width="0dp"
@@ -78,6 +63,87 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
 
+            />
+        <TextView
+            android:id="@+id/settings_menu_idle_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fight_text"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="@id/settings_menu_guideline_vertical_right"
+            app:layout_constraintLeft_toLeftOf="@id/settings_menu_guideline_vertical_left"
+            app:layout_constraintBottom_toTopOf="@id/settings_menu_guideline_horizontal_top"/>
+        <TextView
+            android:id="@+id/settings_menu_master_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_master_volume"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="@id/settings_menu_guideline_horizontal_top"
+            app:layout_constraintRight_toRightOf="@id/settings_menu_guideline_vertical_right"
+            app:layout_constraintLeft_toLeftOf="@id/settings_menu_guideline_vertical_left"
+            app:layout_constraintBottom_toTopOf="@id/settings_menu_master_volume_bar"
+            app:layout_constraintHorizontal_bias="0.1"
+            />
+        <SeekBar
+            android:id="@+id/settings_menu_master_volume_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/settings_menu_master_volume"
+            app:layout_constraintLeft_toLeftOf="@id/settings_menu_guideline_vertical_left"
+            app:layout_constraintRight_toRightOf="@id/settings_menu_guideline_vertical_right"
+            app:layout_constraintBottom_toTopOf="@id/settings_menu_music_volume"
+            app:layout_constraintHorizontal_bias="0.1"/>
+        <TextView
+            android:id="@+id/settings_menu_music_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_music_volume"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/settings_menu_master_volume_bar"
+            app:layout_constraintRight_toRightOf="@id/settings_menu_guideline_vertical_right"
+            app:layout_constraintLeft_toLeftOf="@id/settings_menu_guideline_vertical_left"
+            app:layout_constraintBottom_toTopOf="@id/settings_menu_music_volume_bar"
+            app:layout_constraintHorizontal_bias="0.1"
+        />
+        <SeekBar
+            android:id="@+id/settings_menu_music_volume_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/settings_menu_music_volume"
+            app:layout_constraintLeft_toLeftOf="@id/settings_menu_guideline_vertical_left"
+            app:layout_constraintRight_toRightOf="@id/settings_menu_guideline_vertical_right"
+            app:layout_constraintBottom_toTopOf="@id/settings_menu_effects_volume"
+            app:layout_constraintHorizontal_bias="0.1"/>
+        <TextView
+            android:id="@+id/settings_menu_effects_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_effects_volume"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="@id/settings_menu_music_volume_bar"
+            app:layout_constraintRight_toRightOf="@id/settings_menu_guideline_vertical_right"
+            app:layout_constraintLeft_toLeftOf="@id/settings_menu_guideline_vertical_left"
+            app:layout_constraintBottom_toBottomOf="@id/settings_menu_effects_volume_bar"
+            app:layout_constraintHorizontal_bias="0.1"
+            />
+        <SeekBar
+            android:id="@+id/settings_menu_effects_volume_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/settings_menu_effects_volume"
+            app:layout_constraintLeft_toLeftOf="@id/settings_menu_guideline_vertical_left"
+            app:layout_constraintRight_toRightOf="@id/settings_menu_guideline_vertical_right"
+            app:layout_constraintBottom_toTopOf="@id/settings_menu_guideline_horizontal_bottom"
+            app:layout_constraintHorizontal_bias="0.1"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
