@@ -9,13 +9,7 @@
     android:background="?attr/fullscreenBackgroundColor"
     android:theme="@style/ThemeOverlay.SemestralnaPraca_idleGame_Tibor_Michalov.FullscreenContainer"
     tools:context=".main_menu">
-    <fragment
-        android:id="@+id/main_menu_navHost"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:navGraph="@navigation/navigation"
-        app:defaultNavHost="true" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

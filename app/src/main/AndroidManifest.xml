@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SemestralnaPraca_idleGame_Tibor_Michalov">
         <activity
-            android:name=".main_menu"
+            android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:label="@string/app_name"

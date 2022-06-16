@@ -2,11 +2,83 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation">
+    android:id="@+id/navigation"
+    app:startDestination="@id/main_menu">
 
     <fragment
         android:id="@+id/fight_menu"
         android:name="com.example.semestralnapraca_idlegame_tibor_michalov.fight_menu"
         android:label="fragment_fight_menu"
-        tools:layout="@layout/fragment_fight_menu" />
+        tools:layout="@layout/fragment_fight_menu" >
+        <action
+            android:id="@+id/action_fight_menu_to_main_menu"
+            app:destination="@id/main_menu"
+            app:popUpTo="@id/main_menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/blacksmith_menu"
+        android:name="com.example.semestralnapraca_idlegame_tibor_michalov.blacksmith_menu"
+        android:label="fragment_blacksmith_menu"
+        tools:layout="@layout/fragment_blacksmith_menu" >
+        <action
+            android:id="@+id/action_blacksmith_menu_to_main_menu"
+            app:destination="@id/main_menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/legacy_menu"
+        android:name="com.example.semestralnapraca_idlegame_tibor_michalov.legacy_menu"
+        android:label="fragment_legacy_menu"
+        tools:layout="@layout/fragment_legacy_menu" >
+        <action
+            android:id="@+id/action_legacy_menu_to_main_menu"
+            app:destination="@id/main_menu"
+            app:popUpTo="@id/main_menu"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/settings_menu"
+        android:name="com.example.semestralnapraca_idlegame_tibor_michalov.settings_menu"
+        android:label="fragment_settings_menu"
+        tools:layout="@layout/fragment_settings_menu" >
+        <action
+            android:id="@+id/action_settings_menu_to_main_menu"
+            app:destination="@id/main_menu"
+            app:popUpTo="@id/main_menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/units_menu"
+        android:name="com.example.semestralnapraca_idlegame_tibor_michalov.units_menu"
+        android:label="fragment_units_menu"
+        tools:layout="@layout/fragment_units_menu" >
+        <action
+            android:id="@+id/action_units_menu_to_main_menu"
+            app:destination="@id/main_menu"
+            app:popUpTo="@id/main_menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/main_menu"
+        android:name="com.example.semestralnapraca_idlegame_tibor_michalov.main_menu"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/action_main_menu_to_legacy_menu"
+            app:destination="@id/legacy_menu"
+            app:popUpTo="@id/main_menu" />
+        <action
+            android:id="@+id/action_main_menu_to_settings_menu"
+            app:destination="@id/settings_menu"
+            app:popUpTo="@id/main_menu" />
+        <action
+            android:id="@+id/action_main_menu_to_fight_menu"
+            app:destination="@id/fight_menu"
+            app:popUpTo="@id/main_menu" />
+        <action
+            android:id="@+id/action_main_menu_to_blacksmith_menu"
+            app:destination="@id/blacksmith_menu"
+            app:popUpTo="@id/main_menu" />
+        <action
+            android:id="@+id/action_main_menu_to_units_menu"
+            app:destination="@id/units_menu"
+            app:popUpTo="@id/main_menu" />
+    </fragment>
 </navigation>

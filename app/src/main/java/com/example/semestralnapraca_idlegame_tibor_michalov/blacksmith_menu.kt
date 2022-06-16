@@ -7,22 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
-import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentFightMenuBinding
-
+import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentBlacksmithMenuBinding
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class fight_menu : Fragment() {
-    private val viewModel: GameViewModel by viewModels()
+class blacksmith_menu : Fragment() {
     private val hideHandler = Handler()
-
 
     @Suppress("InlinedApi")
     private val hidePart2Runnable = Runnable {
@@ -64,7 +58,7 @@ class fight_menu : Fragment() {
     private var fullscreenContent: View? = null
     private var fullscreenContentControls: View? = null
 
-    private var _binding: FragmentFightMenuBinding? = null
+    private var _binding: FragmentBlacksmithMenuBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -76,17 +70,9 @@ class fight_menu : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentFightMenuBinding.inflate(inflater, container, false)
-        updateScreen()
-
-        binding.fightMenuBackButton.setOnClickListener{ fightBackButtonClick() }
-
+        _binding = FragmentBlacksmithMenuBinding.inflate(inflater, container, false)
         return binding.root
 
-    }
-
-    private fun fightBackButtonClick() {
-        TODO("Not yet implemented")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,11 +80,16 @@ class fight_menu : Fragment() {
 
         visible = true
 
-        binding.fightMenuBackButton.setOnClickListener{ view : View ->
-            view.findNavController().navigate(R.id.action_fight_menu_to_main_menu) }
+        dummyButton = binding.dummyButton
+        fullscreenContent = binding.fullscreenContent
+        fullscreenContentControls = binding.fullscreenContentControls
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContent?.setOnClickListener { toggle() }
 
+        // Upon interacting with UI controls, delay any scheduled hide()
+        // operations to prevent the jarring behavior of controls going away
+        // while interacting with the UI.
+        dummyButton?.setOnTouchListener(delayHideTouchListener)
     }
 
     override fun onResume() {
@@ -191,13 +182,5 @@ class fight_menu : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun updateScreen() {
-        binding.fightMenuBossNameValue.text = getString(R.string.tempboss)
-        binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health)
-    }
-
-    private fun sendMessage(message:String) {
     }
 }

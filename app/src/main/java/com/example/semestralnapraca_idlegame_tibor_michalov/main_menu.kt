@@ -1,56 +1,50 @@
 package com.example.semestralnapraca_idlegame_tibor_michalov
-
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.view.MotionEvent
-import android.view.View
-import android.view.WindowInsets
+import android.view.*
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
-import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.ActivityMainMenuBinding
+import androidx.navigation.findNavController
+import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentMainMenuBinding
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class main_menu : AppCompatActivity() {
+class main_menu : Fragment() {
 
-    private val viewModel: GameViewModel by viewModels()
-    private lateinit var binding: ActivityMainMenuBinding
-    private lateinit var fullscreenContent: TextView
-    //private lateinit var fullscreenContentControls: LinearLayout
     private val hideHandler = Handler()
-
-    @SuppressLint("InlinedApi")
+    private val viewModel: GameViewModel by viewModels()
+    @Suppress("InlinedApi")
     private val hidePart2Runnable = Runnable {
         // Delayed removal of status and navigation bar
-        if (Build.VERSION.SDK_INT >= 30) {
-            fullscreenContent.windowInsetsController?.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-        } else {
-            // Note that some of these constants are new as of API 16 (Jelly Bean)
-            // and API 19 (KitKat). It is safe to use them, as they are inlined
-            // at compile-time and do nothing on earlier devices.
-            /*fullscreenContent.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LOW_PROFILE or
-                        View.SYSTEM_UI_FLAG_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION*/
-        }
+
+        // Note that some of these constants are new as of API 16 (Jelly Bean)
+        // and API 19 (KitKat). It is safe to use them, as they are inlined
+        // at compile-time and do nothing on earlier devices.
+        val flags =
+            View.SYSTEM_UI_FLAG_LOW_PROFILE or
+                    View.SYSTEM_UI_FLAG_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        activity?.window?.decorView?.systemUiVisibility = flags
+        (activity as? AppCompatActivity)?.supportActionBar?.hide()
     }
     private val showPart2Runnable = Runnable {
         // Delayed display of UI elements
-        supportActionBar?.show()
-        //fullscreenContentControls.visibility = View.VISIBLE
+        fullscreenContentControls?.visibility = View.VISIBLE
     }
-    private var isFullscreen: Boolean = false
-
+    private var visible: Boolean = false
     private val hideRunnable = Runnable { hide() }
 
     /**
@@ -58,73 +52,62 @@ class main_menu : AppCompatActivity() {
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-    private val delayHideTouchListener = View.OnTouchListener { view, motionEvent ->
-        when (motionEvent.action) {
-            MotionEvent.ACTION_DOWN -> if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS)
-            }
-            MotionEvent.ACTION_UP -> view.performClick()
-            else -> {
-            }
+    private val delayHideTouchListener = View.OnTouchListener { _, _ ->
+        if (AUTO_HIDE) {
+            delayedHide(AUTO_HIDE_DELAY_MILLIS)
         }
         false
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private var dummyButton: Button? = null
+    private var fullscreenContent: View? = null
+    private var fullscreenContentControls: View? = null
 
-        binding = ActivityMainMenuBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    private var _binding: FragmentMainMenuBinding? = null
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
-        isFullscreen = true
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-        updateScreen()
-        binding.mainMenuFightButton.setOnClickListener{ fightButtonClick() }
-        binding.mainMenuBlacksmithButton.setOnClickListener{ blacksmithButtonClick() }
-        binding.mainMenuUnitsButton.setOnClickListener{ unitsButtonClick() }
-        binding.mainMenuLegacyButton.setOnClickListener{ legacyButtonClick() }
-        binding.mainMenuSettingsButton.setOnClickListener{ settingsButtonClick() }
+        _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
 
-        // Set up the user interaction to manually show or hide the system UI.
-        //fullscreenContent = binding.fullscreenContent
-       // fullscreenContent.setOnClickListener { toggle() }
+        return binding.root
 
-        //fullscreenContentControls = binding.fullscreenContentControls
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        //binding.dummyButton.setOnTouchListener(delayHideTouchListener)
-    }
-
-
-
-
-    private fun fightButtonClick() {
-        TODO("Not yet implemented")
-    }
-    private fun blacksmithButtonClick() {
-        TODO("Not yet implemented")
-    }
-    private fun unitsButtonClick() {
-        TODO("Not yet implemented")
-    }
-    private fun legacyButtonClick() {
-        TODO("Not yet implemented")
-    }
-    private fun settingsButtonClick() {
-        TODO("Not yet implemented")
     }
     private fun updateScreen() {
         binding.mainMenuLevelText.text = getString(R.string.level_text) + viewModel.level.toString()
         binding.mainMenuGoldText.text = getString(R.string.gold_text) + viewModel.gold.toString()
         binding.mainMenuLegacyText.text = getString(R.string.legacy_text) + viewModel.legacyMoney.toString()
     }
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        updateScreen()
+        binding.mainMenuFightButton.setOnClickListener{ view : View ->
+            view.findNavController().navigate(R.id.action_main_menu_to_fight_menu) }
+        binding.mainMenuBlacksmithButton.setOnClickListener{ view : View ->
+            view.findNavController().navigate(R.id.action_main_menu_to_blacksmith_menu) }
+        binding.mainMenuUnitsButton.setOnClickListener{ view : View ->
+            view.findNavController().navigate(R.id.action_main_menu_to_units_menu) }
+        binding.mainMenuLegacyButton.setOnClickListener{ view : View ->
+            view.findNavController().navigate(R.id.action_main_menu_to_legacy_menu) }
+        binding.mainMenuSettingsButton.setOnClickListener{ view : View ->
+            view.findNavController().navigate(R.id.action_main_menu_to_settings_menu) }
+        visible = true
+
+
+        // Set up the user interaction to manually show or hide the system UI.
+        fullscreenContent?.setOnClickListener { toggle() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
@@ -132,8 +115,24 @@ class main_menu : AppCompatActivity() {
         delayedHide(100)
     }
 
+    override fun onPause() {
+        super.onPause()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+
+        // Clear the systemUiVisibility flag
+        activity?.window?.decorView?.systemUiVisibility = 0
+        show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dummyButton = null
+        fullscreenContent = null
+        fullscreenContentControls = null
+    }
+
     private fun toggle() {
-        if (isFullscreen) {
+        if (visible) {
             hide()
         } else {
             show()
@@ -142,29 +141,26 @@ class main_menu : AppCompatActivity() {
 
     private fun hide() {
         // Hide UI first
-        supportActionBar?.hide()
-        //fullscreenContentControls.visibility = View.GONE
-        isFullscreen = false
+        fullscreenContentControls?.visibility = View.GONE
+        visible = false
 
         // Schedule a runnable to remove the status and navigation bar after a delay
         hideHandler.removeCallbacks(showPart2Runnable)
         hideHandler.postDelayed(hidePart2Runnable, UI_ANIMATION_DELAY.toLong())
     }
 
+    @Suppress("InlinedApi")
     private fun show() {
         // Show the system bar
-        if (Build.VERSION.SDK_INT >= 30) {
-            fullscreenContent.windowInsetsController?.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-        } else {
-            fullscreenContent.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-        }
-        isFullscreen = true
+        fullscreenContent?.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        visible = true
 
         // Schedule a runnable to display UI elements after a delay
         hideHandler.removeCallbacks(hidePart2Runnable)
         hideHandler.postDelayed(showPart2Runnable, UI_ANIMATION_DELAY.toLong())
+        (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
 
     /**
@@ -196,4 +192,8 @@ class main_menu : AppCompatActivity() {
         private const val UI_ANIMATION_DELAY = 300
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
