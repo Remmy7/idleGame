@@ -1,5 +1,6 @@
 package com.example.semestralnapraca_idlegame_tibor_michalov
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -7,10 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentUnitsMenuBinding
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._archerLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._gold
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._knightLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._mysticLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._wizardLevel
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.
@@ -75,14 +82,80 @@ class units_menu : Fragment() {
         return binding.root
 
     }
+    private fun updateScreen() {
+        val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            binding.unitsMenuGoldText.text = getString(R.string.gold_text) + sharedPref.getInt(_gold, 1).toString()
+            binding.unitsUpgradeWizard.text = getString(R.string.wizard_level) +
+                    sharedPref.getInt(_wizardLevel, 1).toString() + " " + sharedPref.getInt(_wizardLevel, 1) * 10/7 + " gold"
+            binding.unitsUpgradeMystic.text = getString(R.string.mystic_level) +
+                    sharedPref.getInt(_mysticLevel, 1).toString() + " " + sharedPref.getInt(_mysticLevel, 1) *  12/7 + " gold"
+            binding.unitsUpgradeArcher.text = getString(R.string.archer_level) +
+                    sharedPref.getInt(_archerLevel, 1).toString() + " " + sharedPref.getInt(_archerLevel, 1) * 17/7 + " gold"
+            binding.unitsUpgradeKnight.text = getString(R.string.knight_level) +
+                    sharedPref.getInt(_knightLevel, 1).toString() + " " + sharedPref.getInt(_knightLevel, 1) * 3 + " gold"
+            apply()
+        }
+    }
+    private fun upgradeUnit(value : String) {
+        val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            var currGold : Int = sharedPref.getInt(_gold, 1)
+            if (value == "wizard") {
+                if (currGold >= sharedPref.getInt(_wizardLevel, 1) * 10/7) {
+                    putInt(_gold, currGold - sharedPref.getInt(_wizardLevel, 1) * 10/7)
+                    putInt(_wizardLevel, sharedPref.getInt(_wizardLevel, 1) + 1)
+                } else {
+                    Toast.makeText(activity, "Not enough funds", Toast.LENGTH_SHORT).show()
+                }
+            } else if (value == "mystic") {
+                if (currGold >= sharedPref.getInt(_mysticLevel, 1) * 12/7) {
+                    putInt(_gold, currGold - sharedPref.getInt(_mysticLevel, 1) * 12/7)
+                    putInt(_mysticLevel, sharedPref.getInt(_mysticLevel, 1) + 1)
+                } else {
+                    Toast.makeText(activity, "Not enough funds", Toast.LENGTH_SHORT).show()
+                }
+
+            } else if (value == "archer") {
+                if (currGold >= sharedPref.getInt(_archerLevel, 1) * 17/7) {
+                    putInt(_gold, currGold - sharedPref.getInt(_archerLevel, 1) * 17/7)
+                    putInt(_archerLevel, sharedPref.getInt(_archerLevel, 1) + 1)
+                } else {
+                    Toast.makeText(activity, "Not enough funds", Toast.LENGTH_SHORT).show()
+                }
+
+            } else if (value == "knight") {
+                if (currGold >= sharedPref.getInt(_knightLevel, 1) * 3) {
+                    putInt(_gold, currGold - sharedPref.getInt(_knightLevel, 1) * 3)
+                    putInt(_knightLevel, sharedPref.getInt(_knightLevel, 1) + 1)
+                } else {
+                    Toast.makeText(activity, "Not enough funds", Toast.LENGTH_SHORT).show()
+                }
+            }
+            apply()
+        }
+        updateScreen()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         visible = true
-
+        updateScreen()
         binding.unitsMenuBackButton.setOnClickListener{ view : View ->
             view.findNavController().navigate(R.id.action_units_menu_to_main_menu)
+        }
+        binding.unitsUpgradeWizard.setOnClickListener{
+            upgradeUnit("wizard")
+        }
+        binding.unitsUpgradeMystic.setOnClickListener{
+            upgradeUnit("mystic")
+        }
+        binding.unitsUpgradeArcher.setOnClickListener{
+            upgradeUnit("archer")
+        }
+        binding.unitsUpgradeKnight.setOnClickListener{
+            upgradeUnit("knight")
         }
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContent?.setOnClickListener { toggle() }
