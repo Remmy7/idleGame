@@ -4,13 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/activity_fullscreen.xml" value="0.1641337386018237" />
-        <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/activity_main.xml" value="0.1160081053698075" />
+        <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/activity_main.xml" value="0.4" />
         <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/activity_main_menu.xml" value="0.10733695652173914" />
         <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/blank_fragment.xml" value="0.11677387431964374" />
-        <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/fragment_blacksmith_menu.xml" value="0.1" />
+        <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/fragment_blacksmith_menu.xml" value="0.264" />
         <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/fragment_fight_menu.xml" value="0.12360688956433637" />
-        <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/fragment_legacy_menu.xml" value="0.1" />
-        <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/fragment_main_menu.xml" value="0.264" />
+        <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/fragment_legacy_menu.xml" value="0.264" />
+        <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/fragment_main_menu.xml" value="0.478134110787172" />
+        <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/fragment_settings_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/VAMZ_projects/semestralnaPraca_idleGame_Tibor_Michalov/app/src/main/res/layout/fragment_units_menu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
