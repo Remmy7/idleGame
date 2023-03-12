@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         val _legacy = "legacy"
         val _monsterLevel = "monsterLevel"
         val _monsterHealth = "monsterHealth"
+        val _monsterMaxHealth = "monsterMaxHealth"
 
         val _wizardLevel = "wizardLevel"
         val _wizardWeaponLevel = "WizardWeaponLevel"
