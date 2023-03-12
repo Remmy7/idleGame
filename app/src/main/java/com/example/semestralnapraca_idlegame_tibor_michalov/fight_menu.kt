@@ -1,5 +1,6 @@
 package com.example.semestralnapraca_idlegame_tibor_michalov
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
@@ -11,9 +12,11 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -27,6 +30,7 @@ import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.Prefere
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._levelUpExperience
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterHealth
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterMaxHealth
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._mysticLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._mysticWeaponLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._wizardLevel
@@ -78,10 +82,25 @@ class fight_menu : Fragment() {
     }
     // Updates text variables on the screen according to data stored in a SharedPreferences variable
     // Shows boss name and its current health
+    @SuppressLint("SetTextI18n")
     private fun updateScreen() {
         val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE)
+        val maxHealth = sharedPreferences?.getInt(_monsterMaxHealth, 100)
+        val healthPercentage : Int? =
+            (sharedPreferences?.getInt(_monsterHealth, 100000)?.times(100))
+                ?.div(sharedPreferences.getInt(_monsterMaxHealth, 100000));
         binding.fightMenuBossNameValue.text = getString(R.string.tempboss)
-        binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health) + sharedPreferences?.getInt(_monsterHealth, 100).toString()
+        if (healthPercentage != null) {
+            if (healthPercentage >= 70) {
+                binding.fightMenuBossHealthbarValue.setTextColor(Color.GREEN);
+            } else if (healthPercentage >= 30) {
+                binding.fightMenuBossHealthbarValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange));
+            } else {
+                binding.fightMenuBossHealthbarValue.setTextColor(Color.RED);
+            }
+        }
+        //binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health) + healthPercentage.toString()
+        binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health) + sharedPreferences?.getInt(_monsterHealth, 100).toString() + " / " + maxHealth.toString()
     }
 
     // Function handling attacks on enemy
@@ -151,7 +170,8 @@ class fight_menu : Fragment() {
                 putInt(_levelUpExperience, 100 * (sharedPref.getInt(_level, 50) * 12/10))
             }
             putInt(_monsterLevel, monsterLevel + 1)
-            putInt(_monsterHealth, monsterLevel * 15)
+            putInt(_monsterMaxHealth, monsterLevel * 15)
+            putInt(_monsterHealth, sharedPref.getInt(_monsterMaxHealth, monsterLevel * 15))
             putInt(_gold, sharedPref.getInt(_gold, 5) + monsterLevel * 10)
             apply()
         }
