@@ -23,6 +23,7 @@ import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.Prefere
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._levelUpExperience
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterHealth
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterLevel
+import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._monsterMaxHealth
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._mysticLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._mysticWeaponLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._wizardLevel
@@ -122,6 +123,7 @@ class legacy_menu : Fragment() {
             putInt(_currentExperience, 0)
             putInt(_levelUpExperience, 100)
             putInt(_monsterLevel, 1)
+            putInt(_monsterMaxHealth, 15)
             putInt(_monsterHealth, 15)
             putInt(_gold, 20000)
             putInt(_wizardLevel, 1)
