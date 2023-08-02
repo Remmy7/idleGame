@@ -43,13 +43,18 @@ class MainActivity : AppCompatActivity() {
         val _monsterMaxHealth = "monsterMaxHealth"
 
         val _wizardLevel = "wizardLevel"
-        val _wizardWeaponLevel = "WizardWeaponLevel"
+        val _wizardWeaponLevel = "wizardWeaponLevel"
         val _archerLevel = "archerLevel"
         val _archerWeaponLevel = "archerWeaponLevel"
         val _knightLevel = "knightLevel"
         val _knightWeaponLevel = "knightWeaponLevel"
         val _mysticLevel = "mysticLevel"
         val _mysticWeaponLevel = "mysticWeaponLevel"
+    }
+
+    object PreferenceHelperLegacy {
+        val _legacyWizardLevel = "legacyWizardLevel"
+        val _legacyWizardWeaponLevel = "legacyWizardWeaponLevel"
     }
 
 }
