@@ -59,7 +59,7 @@ class fight_menu : Fragment() {
     // Also handles calling automatic screen upgrading, spell casting and attack on enemy
     private val updateTextTask = object : Runnable {
         override fun run() {
-            specialSpellCastInterval += 1
+            specialSpellCastInterval += 0 // TODO change to 1 later
             if(specialSpellCastInterval == mysticSpellCastInterval) {
                 castSpecialSpell("mystic")
                 updateScreen()
@@ -84,36 +84,43 @@ class fight_menu : Fragment() {
     // Shows boss name and its current health
     @SuppressLint("SetTextI18n")
     private fun updateScreen() {
-        val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE)
-        val maxHealth = sharedPreferences?.getInt(_monsterMaxHealth, 100)
-        val healthPercentage : Int? =
-            (sharedPreferences?.getInt(_monsterHealth, 100000)?.times(100))
-                ?.div(sharedPreferences.getInt(_monsterMaxHealth, 100000));
-        binding.fightMenuBossNameValue.text = getString(R.string.tempboss)
-        if (healthPercentage != null) {
+        val sharedPref =
+            activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            val currHealth = sharedPref.getInt(_monsterHealth, 100)
+            val maxHealth = sharedPref.getInt(_monsterMaxHealth, 100)
+
+            val healthPercentage = ((currHealth * 100) / maxHealth)
+            binding.fightMenuBossNameValue.text = getString(R.string.tempboss)
             if (healthPercentage >= 70) {
                 binding.fightMenuBossHealthbarValue.setTextColor(Color.GREEN);
             } else if (healthPercentage >= 30) {
-                binding.fightMenuBossHealthbarValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange));
+                binding.fightMenuBossHealthbarValue.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange
+                    )
+                );
             } else {
                 binding.fightMenuBossHealthbarValue.setTextColor(Color.RED);
             }
+            //binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health) + healthPercentage.toString()
+            binding.fightMenuBossHealthbarValue.text =
+                "Health:" + getString(R.string.fight_menu_boss_health) + currHealth.toString() + " / " + maxHealth.toString()
         }
-        //binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health) + healthPercentage.toString()
-        binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health) + sharedPreferences?.getInt(_monsterHealth, 100).toString() + " / " + maxHealth.toString()
     }
 
     // Function handling attacks on enemy
     // Calls for calcuateDamage() function first
-    // If the damage is enough to kill the enemy, levelUp() function is called
+    // If the damage is enough to kill the enemy, monsterKill() function is called
     fun attackEnemy() {
         var calculatedDamage = calculateDamage();
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
-            putInt(_monsterHealth, sharedPref.getInt(_monsterHealth, 150) - calculatedDamage)
+            putInt(_monsterHealth, sharedPref.getInt(_monsterHealth, 0) - calculatedDamage.toInt())
             apply()
         }
-        if (sharedPref.getInt(_monsterHealth, 150) <= 0) { levelUp() }
+        if (sharedPref.getInt(_monsterHealth, 0) <= 0) { monsterKill() }
 
     }
     // Function handling spell casts
@@ -159,45 +166,56 @@ class fight_menu : Fragment() {
     // Rewards player for killing the monster
     // Also can give player increased level if his current experience reached
     // level up threshold
-    fun levelUp() {
+    fun monsterKill() {
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
             val monsterLevel = sharedPref.getInt(_monsterLevel, 1)
-            putInt(_currentExperience, sharedPref.getInt(_currentExperience, 1) + ((50 * monsterLevel) * 12/10))
-            if (sharedPref.getInt(_currentExperience, 1) > sharedPref.getInt(_levelUpExperience, 100)) {
-                putInt(_level, sharedPref.getInt(_level, 50) + 1)
-                putInt(_currentExperience, 0)
-                putInt(_levelUpExperience, 100 * (sharedPref.getInt(_level, 50) * 12/10))
+            val increasedHp = 15;
+            var newExperience = sharedPref.getInt(_currentExperience, 1) + ((50 * monsterLevel) * 12 / 10)
+            while (newExperience > sharedPref.getInt(_levelUpExperience, 100)) {
+                val newLevel = sharedPref.getInt(_level, 50) + 1
+                putInt(_level, newLevel)
+                newExperience -= sharedPref.getInt(_levelUpExperience, 100)
+                putInt(_currentExperience, newExperience)
+                putInt(_levelUpExperience, 100 * (newLevel * 12 / 10))
+                commit()
             }
             putInt(_monsterLevel, monsterLevel + 1)
-            putInt(_monsterMaxHealth, monsterLevel * 15)
-            putInt(_monsterHealth, sharedPref.getInt(_monsterMaxHealth, monsterLevel * 15))
+
+            val currHealth = sharedPref.getInt(_monsterMaxHealth, 0)
+            putInt(_monsterHealth, currHealth + increasedHp)
+
+            putInt(_monsterMaxHealth, currHealth + increasedHp)
+
             putInt(_gold, sharedPref.getInt(_gold, 5) + monsterLevel * 10)
+
             apply()
         }
 
     }
+
     // Function handling damage calculation
     // Takes both unit levels and weapon levels and with
     // specific math calculates total damage dealt that tick
     // Also handles bonus damage from curse buff
-    fun calculateDamage() : Int {
-        var calculatedDamage = 0
-        val sharedPref = activity?.getSharedPreferences("PreferenceHelper",Context.MODE_PRIVATE)?: return 1
-        with (sharedPref.edit()) {
-            val wizardDamage = sharedPref.getInt(_wizardLevel, 1) *
-                    (1 + (sharedPref.getInt(_wizardWeaponLevel, 1) / 75))
-            val archerDamage = sharedPref.getInt(_archerLevel, 1) *
-                    (1 + (sharedPref.getInt(_archerWeaponLevel, 1) / 100))
-            val mysticDamage = sharedPref.getInt(_mysticLevel, 1) *
-                    (1 + (sharedPref.getInt(_mysticWeaponLevel, 1) / 130))
-            val knightDamage = sharedPref.getInt(_knightLevel, 1) *
-                    (1 + (sharedPref.getInt(_knightWeaponLevel, 1) / 110))
-            calculatedDamage += wizardDamage + archerDamage + mysticDamage + knightDamage
-        }
+    fun calculateDamage(): Float {
+        var calculatedDamage = 0f // Change the return type to Float
+        val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return 1f
+
+        val wizardDamage = sharedPref.getInt(_wizardLevel, 0).toFloat() *
+                (1f + (sharedPref.getInt(_wizardWeaponLevel, 0).toFloat() / 75f))
+        val archerDamage = sharedPref.getInt(_archerLevel, 0) *
+                (1f + (sharedPref.getInt(_archerWeaponLevel, 0).toFloat() / 100f))
+        val mysticDamage = sharedPref.getInt(_mysticLevel, 0) *
+                (1f + (sharedPref.getInt(_mysticWeaponLevel, 0).toFloat() / 130f))
+        val knightDamage = sharedPref.getInt(_knightLevel, 0) *
+                (1f + (sharedPref.getInt(_knightWeaponLevel, 0).toFloat() / 110f))
+
+        calculatedDamage = wizardDamage + archerDamage + mysticDamage + knightDamage
+
         if (ticksOfCurse > 0) {
             ticksOfCurse--
-            calculatedDamage *= 13 / 10
+            calculatedDamage *= 1.3f // Use 1.3f to represent 13 / 10 as a float
         }
 
         return calculatedDamage
