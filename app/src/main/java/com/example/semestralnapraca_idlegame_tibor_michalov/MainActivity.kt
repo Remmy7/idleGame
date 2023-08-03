@@ -55,6 +55,12 @@ class MainActivity : AppCompatActivity() {
     object PreferenceHelperLegacy {
         val _legacyWizardLevel = "legacyWizardLevel"
         val _legacyWizardWeaponLevel = "legacyWizardWeaponLevel"
+        val _legacyArcherLevel = "legacyArcherLevel"
+        val _legacyArcherWeaponLevel = "legacyArcherWeaponLevel"
+        val _legacyKnightLevel = "legacyKnightLevel"
+        val _legacyKnightWeaponLevel = "legacyKnightWeaponLevel"
+        val _legacyMysticLevel = "legacyMysticLevel"
+        val _legacyMysticWeaponLevel = "legacyMysticWeaponLevel"
     }
 
 }
