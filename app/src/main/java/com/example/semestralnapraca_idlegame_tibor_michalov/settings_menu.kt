@@ -84,6 +84,9 @@ class settings_menu : Fragment() {
         binding.settingsMenuBackButton.setOnClickListener{ view : View ->
             view.findNavController().navigate(R.id.action_settings_menu_to_main_menu)
         }
+        binding.settingsMenuQuitButton.setOnClickListener{
+            requireActivity().finishAndRemoveTask()
+        }
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContent?.setOnClickListener { toggle() }
 
