@@ -14,6 +14,7 @@
     <string name="fight_menu_boss_health">Health:</string>
     <string name="tempboss">Tempboss</string>
     <string name="back_button_shared">back</string>
+    <string name="quit_button">quit game</string>
     <string name="settings_text">Settings</string>
     <string name="settings_master_volume">Master volume</string>
     <string name="settings_music_volume">Music volume</string>
