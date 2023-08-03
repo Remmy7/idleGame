@@ -116,8 +116,15 @@ class legacy_menu : Fragment() {
     // While also awarding him legacy, according to level he reached
     // Legacy will be used for future upgrades
     private fun restartGame() {
+
+
+
         val sharedPref = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
+            val legacyPref = activity?.getSharedPreferences("PreferenceHelperLegacy", Context.MODE_PRIVATE) ?: return
+            with (legacyPref.edit()) {
+
+            }
             putInt(_legacy, sharedPref.getInt(_legacy, 5) + (sharedPref.getInt(_level, 1) / 100))
             putInt(_level, 1)
             putInt(_currentExperience, 0)
@@ -125,15 +132,15 @@ class legacy_menu : Fragment() {
             putInt(_monsterLevel, 1)
             putInt(_monsterMaxHealth, 15)
             putInt(_monsterHealth, 15)
-            putInt(_gold, 20000)
+            putInt(_gold, 200)
             putInt(_wizardLevel, 1)
-            putInt(_wizardWeaponLevel, 1)
-            putInt(_mysticLevel, 1)
-            putInt(_mysticWeaponLevel, 1)
-            putInt(_archerLevel, 1)
-            putInt(_archerWeaponLevel, 1)
-            putInt(_knightLevel, 1)
-            putInt(_knightWeaponLevel, 1)
+            putInt(_wizardWeaponLevel, 0)
+            putInt(_mysticLevel, 0)
+            putInt(_mysticWeaponLevel, 0)
+            putInt(_archerLevel, 0)
+            putInt(_archerWeaponLevel, 0)
+            putInt(_knightLevel, 0)
+            putInt(_knightWeaponLevel, 0)
 
             apply()
             updateScreen()
