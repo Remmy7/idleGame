@@ -1,0 +1,13 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape>
+            <solid android:color="#88000000" /> <!-- Gray semi-transparent color -->
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <scale
+            android:drawable="@drawable/progress_bar_gradient"
+            android:scaleGravity="top"
+            android:scaleWidth="100%" />
+    </item>
+</layer-list>

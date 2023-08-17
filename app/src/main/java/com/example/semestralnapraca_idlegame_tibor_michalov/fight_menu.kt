@@ -1,5 +1,6 @@
 package com.example.semestralnapraca_idlegame_tibor_michalov
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
@@ -15,6 +16,8 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.preference.PreferenceManager
+import android.widget.ImageButton
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -49,10 +52,31 @@ class fight_menu : Fragment() {
     private var wizardSpellCastInterval = 10
     private var archerSpellCastInterval = 15
     private var knightSpellCastInterval = 20
+
+    // Part loaded with loadSavedValues function
+
+
+
     private var mMediaPlayer: MediaPlayer? = null
     //val sharedPreferences = activity?.getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE) //https://stackoverflow.com/questions/54744526/android-shared-preferences-inside-fragment-not-working-kotlin
     private val hideHandler = Handler()
     lateinit var mainHandler: Handler  //https://stackoverflow.com/questions/55570990/kotlin-call-a-function-every-second
+
+
+    // Globally initializes values for the specific fight
+    // TODO - load all variables HERE, calculations as well.
+    init {
+
+
+
+    }
+
+
+    // Loads values on every re-open of the page into global variables
+    fun loadSavedValues() {
+
+    }
+
 
     // A handler that sends a game tick (set of actions) every X milliseconds
     // Right now set to 1000ms (1 second) per tick
@@ -106,7 +130,7 @@ class fight_menu : Fragment() {
             }
             //binding.fightMenuBossHealthbarValue.text = getString(R.string.fight_menu_boss_health) + healthPercentage.toString()
             binding.fightMenuBossHealthbarValue.text =
-                "Health:" + getString(R.string.fight_menu_boss_health) + currHealth.toString() + " / " + maxHealth.toString()
+                getString(R.string.fight_menu_boss_health) + currHealth.toString() + " / " + maxHealth.toString()
         }
     }
 
@@ -267,7 +291,7 @@ class fight_menu : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        loadSavedValues();
         _binding = FragmentFightMenuBinding.inflate(inflater, container, false)
 
 
@@ -280,11 +304,46 @@ class fight_menu : Fragment() {
 
         visible = true
 
+        var isButtonClickable = true
 
+        val wizardSpellButton: ImageButton = view.findViewById(R.id.wizard_spell)
+        val loadingAnimation: ProgressBar = view.findViewById(R.id.loading_animation)
+
+        val progressBarMax = 100
+        val progressBarDuration = 3000L // Duration in milliseconds
+
+        val animator = ValueAnimator.ofInt(0, progressBarMax)
+        animator.addUpdateListener { animation ->
+            val progress = animation.animatedValue as Int
+            loadingAnimation.progress = progress
+        }
+
+        wizardSpellButton.setOnClickListener {
+            if (isButtonClickable) {
+                // Disable the button
+                wizardSpellButton.isEnabled = false
+                isButtonClickable = false
+
+                // Reset the progress bar
+                loadingAnimation.progress = 0
+                loadingAnimation.visibility = View.VISIBLE
+
+                // Start the fading animation
+                animator.duration = progressBarDuration
+                animator.start()
+
+                // Simulate a delay and then re-enable the button
+                Handler().postDelayed({
+                    loadingAnimation.visibility = View.GONE
+                    wizardSpellButton.isEnabled = true
+                    isButtonClickable = true
+                }, progressBarDuration)
+            }
+        }
 
         binding.fightMenuBackButton.setOnClickListener{ view : View ->
             view.findNavController().navigate(R.id.action_fight_menu_to_main_menu)
-            }
+        }
         // Set up the user interaction to manually show or hide the system UI.
         mainHandler = Handler(Looper.getMainLooper())
 
