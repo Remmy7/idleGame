@@ -219,34 +219,84 @@
                      />
             </FrameLayout>
 
-            <ImageButton
-                android:id="@+id/temp_spell1"
+            <FrameLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/wizard_spell"
-                android:layout_weight="0.2"
-                android:layout_marginEnd="16dp"
-                android:scaleType="fitCenter"
-                />
+                android:layout_height="35dp"
+                android:layout_weight="0.20"
+                android:layout_marginEnd="16dp">
+                <ImageButton
+                    android:id="@+id/temp_spell1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/wizard_spell"
+                    android:scaleType="fitCenter"
+                    />
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:id="@+id/loading_animationtemp1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#88000000"
+                    android:indeterminate="false"
+                    android:progress="20"
+                    android:max="100"
+                    android:visibility="invisible"
+                    android:progressDrawable="@drawable/custom_progress_bar"
+                    />
+            </FrameLayout>
 
-            <ImageButton
-                android:id="@+id/temp_spell2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/wizard_spell"
-                android:layout_weight="0.2"
-                android:layout_marginEnd="16dp"
-                android:scaleType="fitCenter"
-                />
 
-            <ImageButton
-                android:id="@+id/temp_spell3"
+            <FrameLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/wizard_spell"
-                android:layout_weight="0.2"
-                android:scaleType="fitCenter"
-                />
+                android:layout_height="35dp"
+                android:layout_weight="0.20"
+                android:layout_marginEnd="16dp">
+                <ImageButton
+                    android:id="@+id/temp_spell2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/wizard_spell"
+                    android:scaleType="fitCenter"
+                    />
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:id="@+id/loading_animationtemp2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#88000000"
+                    android:indeterminate="false"
+                    android:progress="20"
+                    android:max="100"
+                    android:visibility="invisible"
+                    android:progressDrawable="@drawable/custom_progress_bar"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="0.20"
+                >
+                <ImageButton
+                    android:id="@+id/temp_spell3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/wizard_spell"
+                    android:scaleType="fitCenter"
+                    />
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:id="@+id/loading_animationtemp3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#88000000"
+                    android:indeterminate="false"
+                    android:progress="20"
+                    android:max="100"
+                    android:visibility="invisible"
+                    android:progressDrawable="@drawable/custom_progress_bar"
+                    />
+            </FrameLayout>
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

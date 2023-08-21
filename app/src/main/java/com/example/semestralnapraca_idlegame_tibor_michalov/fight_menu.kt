@@ -39,6 +39,7 @@ import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.Prefere
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._wizardLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.MainActivity.PreferenceHelper._wizardWeaponLevel
 import com.example.semestralnapraca_idlegame_tibor_michalov.databinding.FragmentFightMenuBinding
+import java.util.concurrent.atomic.AtomicBoolean
 
 
 /**
@@ -304,29 +305,57 @@ class fight_menu : Fragment() {
 
         visible = true
 
-        var isButtonClickable = true
+        val isButton1Clickable = AtomicBoolean(true)
+        val isButton2Clickable = AtomicBoolean(true)
+        val isButton3Clickable = AtomicBoolean(true)
+        val isButton4Clickable = AtomicBoolean(true)
 
         val wizardSpellButton: ImageButton = view.findViewById(R.id.wizard_spell)
+        val tempButton1: ImageButton = view.findViewById(R.id.temp_spell1)
+        val tempButton2: ImageButton = view.findViewById(R.id.temp_spell2)
+        val tempButton3: ImageButton = view.findViewById(R.id.temp_spell3)
         val loadingAnimation: ProgressBar = view.findViewById(R.id.loading_animation)
+        val tempLoadingAnimation1: ProgressBar = view.findViewById(R.id.loading_animationtemp1)
+        val tempLoadingAnimation2: ProgressBar = view.findViewById(R.id.loading_animationtemp2)
+        val tempLoadingAnimation3: ProgressBar = view.findViewById(R.id.loading_animationtemp3)
 
         val progressBarMax = 100
         val progressBarDuration = 3000L // Duration in milliseconds
+        val tempLoadingAnimation1Duration = 5000L
+        val tempLoadingAnimation2Duration = 8000L
+        val tempLoadingAnimation3Duration = 11000L
 
-
-
-
-
+        ///// ANIMATION PART//////
         val animator = ValueAnimator.ofInt(0, progressBarMax)
         animator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Int
             loadingAnimation.progress = progress
         }
 
+        val tempAnimator1 = ValueAnimator.ofInt(0, progressBarMax)
+        tempAnimator1.addUpdateListener { animation ->
+            val progress = animation.animatedValue as Int
+            tempLoadingAnimation1.progress = progress
+        }
+
+        val tempAnimator2 = ValueAnimator.ofInt(0, progressBarMax)
+        tempAnimator2.addUpdateListener { animation ->
+            val progress = animation.animatedValue as Int
+            tempLoadingAnimation2.progress = progress
+        }
+
+        val tempAnimator3 = ValueAnimator.ofInt(0, progressBarMax)
+        tempAnimator3.addUpdateListener { animation ->
+            val progress = animation.animatedValue as Int
+            tempLoadingAnimation3.progress = progress
+        }
+
+        /////buttons///////
         wizardSpellButton.setOnClickListener {
-            if (isButtonClickable) {
+            if (isButton1Clickable.get()) {
                 // Disable the button
                 wizardSpellButton.isEnabled = false
-                isButtonClickable = false
+                isButton1Clickable.set(false)
 
                 // Reset the progress bar
                 loadingAnimation.progress = 0
@@ -340,19 +369,87 @@ class fight_menu : Fragment() {
                 Handler().postDelayed({
                     loadingAnimation.visibility = View.GONE
                     wizardSpellButton.isEnabled = true
-                    isButtonClickable = true
+                    isButton1Clickable.set(true)
                 }, progressBarDuration)
             }
         }
 
-        binding.fightMenuBackButton.setOnClickListener{ view : View ->
+        tempButton1.setOnClickListener {
+            if (isButton2Clickable.get()) {
+                // Disable the button
+                tempButton1.isEnabled = false
+                isButton2Clickable.set(false)
+
+                // Reset the progress bar
+                tempLoadingAnimation1.progress = 0
+                tempLoadingAnimation1.visibility = View.VISIBLE
+
+                // Start the fading animation
+                tempAnimator1.duration = tempLoadingAnimation1Duration
+                tempAnimator1.start()
+
+                // Simulate a delay and then re-enable the button
+                Handler().postDelayed({
+                    tempLoadingAnimation1.visibility = View.GONE
+                    tempButton1.isEnabled = true
+                    isButton2Clickable.set(true)
+                }, tempLoadingAnimation1Duration)
+            }
+        }
+
+        tempButton2.setOnClickListener {
+            if (isButton3Clickable.get()) {
+                // Disable the button
+                tempButton2.isEnabled = false
+                isButton3Clickable.set(false)
+
+                // Reset the progress bar
+                tempLoadingAnimation2.progress = 0
+                tempLoadingAnimation2.visibility = View.VISIBLE
+
+                // Start the fading animation
+                tempAnimator2.duration = tempLoadingAnimation2Duration
+                tempAnimator2.start()
+
+                // Simulate a delay and then re-enable the button
+                Handler().postDelayed({
+                    tempLoadingAnimation2.visibility = View.GONE
+                    tempButton2.isEnabled = true
+                    isButton3Clickable.set(true)
+                }, tempLoadingAnimation2Duration)
+            }
+        }
+
+        tempButton3.setOnClickListener {
+            if (isButton4Clickable.get()) {
+                // Disable the button
+                tempButton3.isEnabled = false
+                isButton4Clickable.set(false)
+
+                // Reset the progress bar
+                tempLoadingAnimation3.progress = 0
+                tempLoadingAnimation3.visibility = View.VISIBLE
+
+                // Start the fading animation
+                tempAnimator3.duration = tempLoadingAnimation3Duration
+                tempAnimator3.start()
+
+                // Simulate a delay and then re-enable the button
+                Handler().postDelayed({
+                    tempLoadingAnimation3.visibility = View.GONE
+                    tempButton3.isEnabled = true
+                    isButton4Clickable.set(true)
+                }, tempLoadingAnimation3Duration)
+            }
+        }
+
+        binding.fightMenuBackButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_fight_menu_to_main_menu)
         }
         // Set up the user interaction to manually show or hide the system UI.
         mainHandler = Handler(Looper.getMainLooper())
-
-
     }
+
 
     override fun onResume() {
         super.onResume()
