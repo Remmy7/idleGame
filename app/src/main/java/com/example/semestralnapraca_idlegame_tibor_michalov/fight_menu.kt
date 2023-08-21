@@ -312,6 +312,10 @@ class fight_menu : Fragment() {
         val progressBarMax = 100
         val progressBarDuration = 3000L // Duration in milliseconds
 
+
+
+
+
         val animator = ValueAnimator.ofInt(0, progressBarMax)
         animator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Int

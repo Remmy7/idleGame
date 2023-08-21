@@ -206,14 +206,17 @@
                     android:scaleType="fitCenter" />
 
                 <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:id="@+id/loading_animation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#88000000"
                     android:indeterminate="false"
+                    android:progress="20"
                     android:max="100"
+                    android:visibility="invisible"
                     android:progressDrawable="@drawable/custom_progress_bar"
-                    android:visibility="gone" />
+                     />
             </FrameLayout>
 
             <ImageButton

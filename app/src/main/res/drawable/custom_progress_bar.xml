@@ -1,13 +1,28 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
-        <shape>
-            <solid android:color="#88000000" /> <!-- Gray semi-transparent color -->
+        <shape
+            android:innerRadiusRatio="5.0"
+            android:shape="ring"
+            android:type="sweep"
+            android:thicknessRatio="15.0"
+            android:visible="false">
+            <solid android:color="#0099ff"/>
         </shape>
     </item>
     <item android:id="@android:id/progress">
-        <scale
-            android:drawable="@drawable/progress_bar_gradient"
-            android:scaleGravity="top"
-            android:scaleWidth="100%" />
+        <rotate
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:fromDegrees="-90"
+            android:toDegrees="-90">
+            <shape
+                android:innerRadiusRatio="5.0"
+                android:shape="ring"
+                android:angle="0"
+                android:type="sweep"
+                android:thicknessRatio="15.0">
+                <solid android:color="#0099ff"/>
+            </shape>
+        </rotate>
     </item>
 </layer-list>
